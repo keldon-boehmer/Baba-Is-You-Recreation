@@ -1,10 +1,10 @@
-﻿namespace Engine
+﻿namespace BigBlue
 {
     public enum GameStateEnum
     {
         MainMenu,
         GamePlay,
-        HighScores,
+        Controls,
         About,
         Exit
     }

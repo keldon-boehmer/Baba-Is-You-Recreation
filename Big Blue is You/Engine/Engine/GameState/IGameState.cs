@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Engine
+namespace BigBlue.GameState
 {
     public interface IGameState
     {

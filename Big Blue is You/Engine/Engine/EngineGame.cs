@@ -1,8 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BigBlue.GameState;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace Engine
+namespace BigBlue
 {
     public class EngineGame : Game
     {
@@ -30,7 +31,7 @@ namespace Engine
             {
                 { GameStateEnum.MainMenu, new MainMenuView() },
                 { GameStateEnum.GamePlay, new GamePlayView() },
-                { GameStateEnum.HighScores, new HighScoresView() },
+                { GameStateEnum.Controls, new ControlsView() },
                 { GameStateEnum.About, new AboutView() }
             };
 
