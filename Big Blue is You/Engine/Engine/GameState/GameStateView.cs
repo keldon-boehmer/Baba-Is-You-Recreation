@@ -1,8 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BigBlue.GameState;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Engine
+namespace BigBlue
 {
     public abstract class GameStateView : IGameState
     {
