@@ -30,11 +30,17 @@ namespace BigBlue
 
         private const string KeyBindingsFileName = "keybindings.xml";
 
+        public bool moveUp = false;
+        public bool moveDown = false;
+        public bool moveLeft = false;
+        public bool moveRight = false;
+        public bool reset = false;
+        public bool undo = false;
+
         private InputManager()
         {
             // Initialize default key bindings
             List<Keys> keyBinds = LoadKeyBindings();
-            SaveKeyBindings();
 
             keyBindings = new Dictionary<InputAction, Keys>()
             {
@@ -46,6 +52,7 @@ namespace BigBlue
                 { InputAction.Undo, keyBinds[5] }
             };
 
+            SaveKeyBindings();
         }
 
         public static InputManager Instance
@@ -60,34 +67,44 @@ namespace BigBlue
             }
         }
 
-        public void Update()
+        public void ResetInputs()
+        {
+            moveUp = false;
+            moveDown = false;
+            moveLeft = false;
+            moveRight = false;
+            reset = false;
+            undo = false;
+        }
+
+        public void ProcessInput()
         {
             currentKeyboardState = Keyboard.GetState();
 
             // Execute actions
             if (IsActionTriggered(InputAction.MoveUp))
             {
-
+                moveUp = true;
             }
             else if (IsActionTriggered(InputAction.MoveDown))
             {
-
+                moveDown = true;
             }
             else if (IsActionTriggered(InputAction.MoveLeft))
             {
-
+                moveLeft = true;
             }
             else if (IsActionTriggered(InputAction.MoveRight))
             {
-
+                moveRight = true;
             }
             else if (IsActionTriggered(InputAction.Reset))
             {
-
+                reset = true;
             }
             else if (IsActionTriggered(InputAction.Undo))
             {
-
+                undo = true;
             }
 
             previousKeyboardState = currentKeyboardState;
