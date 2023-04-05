@@ -1,8 +1,10 @@
 #OS junk files
+#OS junk files
 [Tt]humbs.db
 *.DS_Store
 
 #Visual Studio files
+.vs/
 *.pidb
 *.userprefs
 *.[Oo]bj
