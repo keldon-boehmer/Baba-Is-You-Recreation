@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Engine.Particles
+namespace BigBlue
 {
-    internal class MyRandom : Random
+    public class MyRandom : Random
     {
 
         /// <summary>
@@ -15,7 +15,7 @@ namespace Engine.Particles
         /// </summary>
         public float nextRange(float min, float max)
         {
-            return MathHelper.Lerp(min, max, (float)NextDouble());
+            return MathHelper.Lerp(min, max, (float)this.NextDouble());
         }
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace Engine.Particles
         /// </summary>
         public Vector2 nextCircleVector()
         {
-            float angle = (float)(NextDouble() * 2.0 * Math.PI);
+            float angle = (float)(this.NextDouble() * 2.0 * Math.PI);
             float x = (float)Math.Cos(angle);
             float y = (float)Math.Sin(angle);
 
@@ -36,12 +36,12 @@ namespace Engine.Particles
         /// </summary>
         public double nextGaussian(double mean, double stdDev)
         {
-            if (usePrevious)
+            if (this.usePrevious)
             {
-                usePrevious = false;
+                this.usePrevious = false;
                 return mean + y2 * stdDev;
             }
-            usePrevious = true;
+            this.usePrevious = true;
 
             double x1 = 0.0;
             double x2 = 0.0;
@@ -50,13 +50,13 @@ namespace Engine.Particles
 
             do
             {
-                x1 = 2.0 * NextDouble() - 1.0;
-                x2 = 2.0 * NextDouble() - 1.0;
-                z = x1 * x1 + x2 * x2;
+                x1 = 2.0 * this.NextDouble() - 1.0;
+                x2 = 2.0 * this.NextDouble() - 1.0;
+                z = (x1 * x1) + (x2 * x2);
             }
             while (z >= 1.0);
 
-            z = Math.Sqrt(-2.0 * Math.Log(z) / z);
+            z = Math.Sqrt((-2.0 * Math.Log(z)) / z);
             y1 = x1 * z;
             y2 = x2 * z;
 
