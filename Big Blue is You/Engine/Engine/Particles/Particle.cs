@@ -6,31 +6,26 @@ namespace BigBlue
 {
     public class Particle
     {
-        public int name;
         public Vector2 position;
         public float rotation;
         public Vector2 direction;
         public float speed;
         public TimeSpan lifetime;
+        public int width;
+        public int height;
+        public Color color;
 
-        public Particle(int name, Vector2 position, Vector2 direction, float speed, TimeSpan lifetime)
+        public Particle(Vector2 position, Vector2 direction, float speed, TimeSpan lifetime, int width, int height, Color color)
         {
-            if (direction.Y < 0)
-            {
-                direction.Y = 0;
-            }
-            if (speed < 0)
-            {
-                speed = 0.1f;
-            }
-
-            this.name = name;
             this.position = position;
             this.direction = direction;
             this.speed = speed;
             this.lifetime = lifetime;
+            this.width = width;
+            this.height = height;
+            this.color = color;
 
-            this.rotation = 0;
+            rotation = 0;
         }
     }
 }

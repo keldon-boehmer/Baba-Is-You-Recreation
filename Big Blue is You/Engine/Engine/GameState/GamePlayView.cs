@@ -25,8 +25,6 @@ namespace BigBlue
         private bool gameStarted = true;
         private bool musicStarted = false;
 
-        private Texture2D particleTex;
-
         private Rectangle backgroundBox;
         private Texture2D background;
 
@@ -46,6 +44,8 @@ namespace BigBlue
 
             screenWidth = graphics.PreferredBackBufferWidth;
             screenHeight = graphics.PreferredBackBufferHeight;
+
+            ParticleSystem.setBlankTexture(graphicsDevice);
 
         }
 
@@ -81,12 +81,29 @@ namespace BigBlue
         }
         public override void update(GameTime gameTime)
         {
+            ParticleSystem.update(gameTime);
+
+            if(InputManager.Instance.moveDown)
+            {
+                ParticleSystem.OnDeath(new Rectangle(100, 100, 40, 40), 50, 2f, new TimeSpan(0, 0, 0, 0, 3000), Color.Yellow);
+            }
+            if(InputManager.Instance.moveLeft)
+            {
+                ParticleSystem.IsWinOrIsYou(new Rectangle(100, 100, 40, 40), 10, 2f, new TimeSpan(0, 0, 0, 0, 3000), Color.Yellow);
+            }
+            if(InputManager.Instance.moveRight)
+            {
+                ParticleSystem.PlayerIsWin(1, 500, 5f, new TimeSpan(0, 0, 0, 0, 3000), new Vector2(screenWidth, screenHeight));
+            }
+            
+
             if (paused)
             {
                 return;
             }
             if (gameStarted)
             {
+                
                 if (!musicStarted)
                 {
                     //MediaPlayer.Play(music);
@@ -94,12 +111,14 @@ namespace BigBlue
                 }
                 updateGameplay(gameTime);
             }
+
+            InputManager.Instance.ResetInputs();
         }
 
         public override void render(GameTime gameTime)
         {
             spriteBatch.Begin();
-
+            ParticleSystem.draw(spriteBatch);
             if (paused)
             {
                 renderPauseMenu();
@@ -124,30 +143,15 @@ namespace BigBlue
             }
             else
             {
-                // process gameplay input here
+                InputManager.Instance.ProcessInput();
             }
             
         }
 
         private void updateGameplay(GameTime gameTime)
         {
-            //updateParticleEmitters(gameTime);
+            
         }
-
-        /*private void updateParticleEmitters(GameTime gameTime)
-        {
-            for (int i = 0; i < board.bricks.GetLength(0); i++)
-            {
-                for (int j = 0; j < board.bricks.GetLength(1); j++)
-                {
-                    Brick brick = board.bricks[i, j];
-                    if (brick.systemActive)
-                    {
-                        brick.systemActive = brick.system.update(gameTime);
-                    }
-                }
-            }
-        }*/
 
         private void renderPlay()
         {
