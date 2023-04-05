@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Engine.Particles
 {
-    internal class MyRandom : Random
+    public class MyRandom : Random
     {
 
         /// <summary>
