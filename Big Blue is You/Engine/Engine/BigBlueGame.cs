@@ -5,14 +5,14 @@ using System.Collections.Generic;
 
 namespace BigBlue
 {
-    public class EngineGame : Game
+    public class BigBlueGame : Game
     {
         private GraphicsDeviceManager graphics;
         private IGameState currentState;
         private GameStateEnum nextStateEnum = GameStateEnum.MainMenu;
         private Dictionary<GameStateEnum, IGameState> states;
 
-        public EngineGame()
+        public BigBlueGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";

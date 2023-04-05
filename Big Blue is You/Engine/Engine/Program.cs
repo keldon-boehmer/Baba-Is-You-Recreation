@@ -1,3 +1,3 @@
 ﻿
-using var game = new BigBlue.EngineGame();
+using var game = new BigBlue.BigBlueGame();
 game.Run();
