@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Engine.Particles
+namespace BigBlue.Particles
 {
     public class MyRandom : Random
     {

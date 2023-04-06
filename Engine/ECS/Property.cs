@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Engine.ECS
+namespace BigBlue.ECS
 {
     internal class Property: Component
     {

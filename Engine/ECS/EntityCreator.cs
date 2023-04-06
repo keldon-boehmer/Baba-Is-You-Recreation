@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Engine.ECS
+namespace BigBlue.ECS
 {
     public static class EntityCreator
     {
@@ -33,7 +33,6 @@ namespace Engine.ECS
         public static void CreateFlag(World world, Vector2 position)
         {
             var flag = world.CreateEntity();
-            //flag.Attach(animComp);
             flag.Attach(new Position(position));
             flag.Attach(new Noun(NounType.Flag));
         }
