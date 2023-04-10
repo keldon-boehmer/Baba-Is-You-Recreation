@@ -1,5 +1,4 @@
-﻿using Engine.ECS.Components;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended.Entities;
 
 namespace BigBlue

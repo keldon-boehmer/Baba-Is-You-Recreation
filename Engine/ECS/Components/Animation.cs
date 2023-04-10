@@ -1,20 +1,23 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace BigBlue
 {
     public class Animation
     {
-        public float FrameTime { get; set; }
+        public int FrameTime { get; }
         public int CurrentFrame { get; set; }
-        public float ElapsedTime { get; set; }
+        public int ElapsedTime { get; set; }
         public Texture2D[] Frames { get; private set; }
+        public Color Color;
 
-        public Animation(Texture2D[] frames)
+        public Animation(Texture2D[] frames, Color color)
         {
             Frames = frames;
-            FrameTime = 1000f / frames.Length;
+            FrameTime = 1000 / frames.Length;
             CurrentFrame = 0;
-            ElapsedTime = 0f;
+            ElapsedTime = 0;
+            Color = color;
         }
 
     }
