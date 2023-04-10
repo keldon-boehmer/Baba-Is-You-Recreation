@@ -13,9 +13,6 @@ namespace BigBlue
         private static List<Particle> _particles = new List<Particle>();
         private static Texture2D _blankTexture;
 
-        // How to make a TimeSpan
-        //new TimeSpan(0, 0, 0, 0, 500)
-
         #region Particle Creation Methods
 
         // This is the sparkle/highlight effect when the condition for IsYou or IsWin changes.

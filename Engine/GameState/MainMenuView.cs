@@ -14,7 +14,7 @@ namespace BigBlue
         private enum MenuState
         {
             NewGame,
-            HighScores,
+            Controls,
             About,
             Quit
         }
@@ -54,9 +54,9 @@ namespace BigBlue
                 if (Keyboard.GetState().IsKeyDown(Keys.Enter) && currentSelection == MenuState.NewGame)
                 {
                     waitForKeyRelease = true;
-                    return GameStateEnum.GamePlay;
+                    return GameStateEnum.LevelSelect;
                 }
-                if (Keyboard.GetState().IsKeyDown(Keys.Enter) && currentSelection == MenuState.HighScores)
+                if (Keyboard.GetState().IsKeyDown(Keys.Enter) && currentSelection == MenuState.Controls)
                 {
                     waitForKeyRelease = true;
                     return GameStateEnum.Controls;
@@ -99,7 +99,7 @@ namespace BigBlue
                 "New Game",
                 graphics.PreferredBackBufferHeight * 4 / 10, 
                 currentSelection == MenuState.NewGame ? Color.Yellow : Color.Blue);
-            bottom = drawMenuItem(currentSelection == MenuState.HighScores ? fontMenuSelect : fontMenu, "Controls", bottom, currentSelection == MenuState.HighScores ? Color.Yellow : Color.Blue);
+            bottom = drawMenuItem(currentSelection == MenuState.Controls ? fontMenuSelect : fontMenu, "Controls", bottom, currentSelection == MenuState.Controls ? Color.Yellow : Color.Blue);
             bottom = drawMenuItem(currentSelection == MenuState.About ? fontMenuSelect : fontMenu, "Credits", bottom, currentSelection == MenuState.About ? Color.Yellow : Color.Blue);
             drawMenuItem(currentSelection == MenuState.Quit ? fontMenuSelect : fontMenu, "Quit", bottom, currentSelection == MenuState.Quit ? Color.Yellow : Color.Blue);
 

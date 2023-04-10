@@ -158,7 +158,6 @@ namespace BigBlue
         private void renderPlay()
         {
             ParticleSystem.draw(spriteBatch);
-            //spriteBatch.Draw(rockSheet[1], new Rectangle(500, 500, 40, 40), Color.Brown);
         }
 
         #endregion
