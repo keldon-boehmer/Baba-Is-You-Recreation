@@ -26,10 +26,14 @@ namespace BigBlue
             //graphics.ToggleFullScreen();
             graphics.ApplyChanges();
 
+            // Create levels
+            createLevels();
+
             // Create all game states
             states = new Dictionary<GameStateEnum, IGameState>
             {
                 { GameStateEnum.MainMenu, new MainMenuView() },
+                { GameStateEnum.LevelSelect, new LevelSelectView() },
                 { GameStateEnum.GamePlay, new GamePlayView() },
                 { GameStateEnum.Controls, new ControlsView() },
                 { GameStateEnum.About, new AboutView() }
@@ -79,6 +83,14 @@ namespace BigBlue
             currentState = states[nextStateEnum];
 
             base.Draw(gameTime);
+        }
+
+        // TODO : Make this method parse the input levels file to create levels
+        private void createLevels()
+        {
+            LevelManager.Instance.addLevel(new Level("Level 1", 10, 10));
+            LevelManager.Instance.addLevel(new Level("Level 2", 10, 10));
+            LevelManager.Instance.addLevel(new Level("Level 3", 10, 10));
         }
     }
 }

@@ -8,15 +8,17 @@ namespace BigBlue
 {
     public class LevelManager
     {
-        private List<Level> Levels;
+        private List<Level> levels;
 
-        private int currentLevelIndex;
+        public int currentLevelIndex;
 
         private static LevelManager instance;
+
 
         private LevelManager()
         {
             currentLevelIndex = 0;
+            levels = new List<Level>();
         }
 
         public static LevelManager Instance
@@ -30,20 +32,45 @@ namespace BigBlue
                 return instance;
             }
         }
-
         public Level getCurrentLevel()
         {
-            return Levels[currentLevelIndex];
-        }
-
-        public void changeCurrentLevelIndex(int change)
-        {
-            currentLevelIndex += change;
+            return levels[currentLevelIndex];
         }
 
         public void addLevel(Level newLevel)
         {
-            Levels.Add(newLevel);
+            levels.Add(newLevel);
         }
+
+        #region Level Select Menuing
+        public int LevelCount { get { return levels.Count; } }
+        public void addCurrentLevelIndex()
+        {
+            if (currentLevelIndex < levels.Count - 1)
+            {
+                currentLevelIndex++;
+            }
+        }
+
+        public void subtractCurrentLevelIndex()
+        {
+            if (currentLevelIndex > 0)
+            {
+                currentLevelIndex--;
+            }
+        }
+
+        public bool equalsCurrentLevelIndex(int n)
+        {
+            return currentLevelIndex == n;
+        }
+
+        public string getLevelName(int index)
+        {
+            return levels[index].Name;
+        }
+
+        #endregion
+
     }
 }
