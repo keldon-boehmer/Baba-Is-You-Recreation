@@ -3,10 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Entities;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BigBlue
 {
@@ -16,12 +12,13 @@ namespace BigBlue
 
         public static World CreateWorld(Level level)
         {
-            // TODO: add systems to world
+            // TODO: add systems to worldBuilder, build world
             // TODO: create entities based on level's layout
             // TODO: return the world
             throw new NotImplementedException();
         }
 
+        #region Sprite Sheet Loading
         private static bool sheetsInitialized = false;
         public static void InitializeSheets(ContentManager contentManager)
         {
@@ -68,5 +65,6 @@ namespace BigBlue
             Texture2D[] spriteSheet = new Texture2D[] { sprite0, sprite1, sprite2 };
             return spriteSheet;
         }
+        #endregion
     }
 }

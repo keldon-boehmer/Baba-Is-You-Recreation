@@ -1,23 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Entities;
-using MonoGame.Extended.Sprites;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BigBlue.ECS
+namespace BigBlue
 {
     public static class EntityCreator
     {
-        private const string BIGBLUE_FILENAME = "bigblue.png";
-        private const string WALL_FILENAME = "water.png";
-        private const string FLAG_FILENAME = "flag.png";
-        private const string ROCK_FILENAME = "rock.png";
-        private const string WATER_FILENAME = "water.png";
-
         public static void CreateBigBlue(World world, Vector2 position)
         {
             var bigBlue = world.CreateEntity();
