@@ -197,8 +197,9 @@ namespace BigBlue
                 {
                     paused = false;
                     currentSelection = 0;
+                    ParticleSystem.ClearParticles();
                     waitForKeyRelease = true;
-                    return GameStateEnum.MainMenu;
+                    return GameStateEnum.LevelSelect;
                 }
             }
             else if (Keyboard.GetState().IsKeyUp(Keys.S) && Keyboard.GetState().IsKeyUp(Keys.W) && Keyboard.GetState().IsKeyUp(Keys.Enter))

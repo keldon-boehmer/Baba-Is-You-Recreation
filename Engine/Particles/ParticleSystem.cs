@@ -182,5 +182,10 @@ namespace BigBlue
             _blankTexture = new Texture2D(graphics, 1, 1);
             _blankTexture.SetData(new Color[] { Color.White });
         }
+
+        public static void ClearParticles()
+        {
+            _particles.Clear();
+        }
     }
 }
