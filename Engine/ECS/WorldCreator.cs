@@ -10,9 +10,13 @@ namespace BigBlue
     {
         private static Dictionary<string, Texture2D[]> spriteSheets;
 
-        public static World CreateWorld(Level level)
+        public static World CreateWorld(Level level, int screenWidth, int screenHeight, SpriteBatch spriteBatch)
         {
-            // TODO: add systems to worldBuilder, build world
+            // TODO: add ALL systems to worldBuilder, build world
+            /*var world = new WorldBuilder()
+                .AddSystem(new AnimationSystem(screenWidth / level.Width, screenHeight / level.Height, spriteBatch))
+                .Build();*/
+            
             // TODO: create entities based on level's layout
             // TODO: return the world
             throw new NotImplementedException();

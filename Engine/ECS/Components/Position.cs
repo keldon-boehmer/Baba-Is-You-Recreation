@@ -10,7 +10,7 @@ namespace BigBlue
         {
             _position = new Vector2(x, y);
         }
-        
+
         public Position(Vector2 position)
         {
             _position = position;

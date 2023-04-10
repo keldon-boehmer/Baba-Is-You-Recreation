@@ -2,7 +2,7 @@
 {
     public enum NounType
     {
-        BigBlue, 
+        BigBlue,
         Wall,
         Flag,
         Rock,
