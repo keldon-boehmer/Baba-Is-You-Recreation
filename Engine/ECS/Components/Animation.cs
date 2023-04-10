@@ -1,6 +1,4 @@
-﻿
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
+﻿using Microsoft.Xna.Framework.Graphics;
 
 namespace BigBlue
 {
@@ -14,7 +12,7 @@ namespace BigBlue
         public Animation(Texture2D[] frames)
         {
             Frames = frames;
-            FrameTime = 1000f / (float)frames.Length;
+            FrameTime = 1000f / frames.Length;
             CurrentFrame = 0;
             ElapsedTime = 0f;
         }
