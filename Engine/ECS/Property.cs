@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BigBlue.ECS
+﻿namespace BigBlue
 {
-    internal class Property: Component
+    public class Property
     {
-        private PropertyType _type;
-        public PropertyType Type { get { return _type; } }
-        public Property(PropertyType type)
+        public bool isYou;
+        public bool isPush;
+        public bool isStop;
+        public bool isKill;
+        public bool isWin;
+
+        public Property(bool isYou, bool isPush, bool isStop, bool isKill, bool isWin)
         {
-            _type = type;
+            this.isYou = isYou;
+            this.isPush = isPush;
+            this.isStop = isStop;
+            this.isKill = isKill;
+            this.isWin = isWin;
         }
     }
 }

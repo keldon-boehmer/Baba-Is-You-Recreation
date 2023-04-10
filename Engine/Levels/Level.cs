@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BigBlue
+﻿namespace BigBlue
 {
     public class Level
     {
@@ -13,6 +7,9 @@ namespace BigBlue
         public int Height { get; set; }
 
         // The following definitions depend on if you want to parse out the levels into char[] immediately from the file or do it in the WorldCreator
+        // Either way, we would need to parse a string into a list of char[] for the layouts. Depends on if you want to do it when initially reading the levels file
+        // or when creating the level. I prefer to do it when reading the levels file, because we'll already be able to access the file line by line, and can add
+        // char arrays to a list much simpler.
         // List<char[]> could also just be a char[,] (2D char array)
         //public List<char[]> layout1;
         //public List<char[]> layout2;

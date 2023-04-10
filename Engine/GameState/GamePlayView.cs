@@ -4,12 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
-using System.Collections.Generic;
-using System.IO.IsolatedStorage;
-using System.IO;
-using System.Xml.Serialization;
 using Microsoft.Xna.Framework.Audio;
-using System.Xml.Linq;
 
 namespace BigBlue
 {
@@ -62,6 +57,8 @@ namespace BigBlue
             moveEffect = contentManager.Load<SoundEffect>("Sound/move");
             onVictoryEffect = contentManager.Load<SoundEffect>("Sound/victory");
             onIsWinConditionChangeEffect = contentManager.Load<SoundEffect>("Sound/winConditionChange");
+
+            WorldCreator.InitializeSheets(contentManager);
         }
 
         public override GameStateEnum processInput(GameTime gameTime)
@@ -195,8 +192,9 @@ namespace BigBlue
                 {
                     paused = false;
                     currentSelection = 0;
+                    ParticleSystem.ClearParticles();
                     waitForKeyRelease = true;
-                    return GameStateEnum.MainMenu;
+                    return GameStateEnum.LevelSelect;
                 }
             }
             else if (Keyboard.GetState().IsKeyUp(Keys.S) && Keyboard.GetState().IsKeyUp(Keys.W) && Keyboard.GetState().IsKeyUp(Keys.Enter))

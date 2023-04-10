@@ -2,9 +2,6 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BigBlue
 {
@@ -181,6 +178,11 @@ namespace BigBlue
         {
             _blankTexture = new Texture2D(graphics, 1, 1);
             _blankTexture.SetData(new Color[] { Color.White });
+        }
+
+        public static void ClearParticles()
+        {
+            _particles.Clear();
         }
     }
 }
