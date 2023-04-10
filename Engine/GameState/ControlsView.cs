@@ -2,12 +2,6 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Collections.Generic;
-using System.IO.IsolatedStorage;
-using System.IO;
-using System.Threading;
-using static System.Formats.Asn1.AsnWriter;
-using System.Xml.Serialization;
 
 namespace BigBlue
 {
