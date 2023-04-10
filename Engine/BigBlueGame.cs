@@ -85,7 +85,7 @@ namespace BigBlue
             base.Draw(gameTime);
         }
 
-        // TODO : Make this method parse the input levels file to create levels
+        // TODO : Make this method parse the input levels file to create levels. Alternatively, implement the method in LevelManager and call it in this file's Initialize method.
         private void createLevels()
         {
             LevelManager.Instance.addLevel(new Level("Level 1", 10, 10));

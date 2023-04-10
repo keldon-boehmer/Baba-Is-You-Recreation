@@ -12,66 +12,47 @@ namespace BigBlue
 {
     public static class WorldCreator
     {
-        private static Texture2D[] bigBlueSheet;
-        private static Texture2D[] flagSheet;
-        private static Texture2D[] floorSheet;
-        private static Texture2D[] flowersSheet;
-        private static Texture2D[] grassSheet;
-        private static Texture2D[] hedgeSheet;
-        private static Texture2D[] lavaSheet;
-        private static Texture2D[] rockSheet;
-        private static Texture2D[] wallSheet;
-        private static Texture2D[] waterSheet;
-        private static Texture2D[] wordBabaSheet;
-        private static Texture2D[] wordFlagSheet;
-        private static Texture2D[] wordIsSheet;
-        private static Texture2D[] wordKillSheet;
-        private static Texture2D[] wordLavaSheet;
-        private static Texture2D[] wordPushSheet;
-        private static Texture2D[] wordRockSheet;
-        private static Texture2D[] wordSinkSheet;
-        private static Texture2D[] wordStopSheet;
-        private static Texture2D[] wordWallSheet;
-        private static Texture2D[] wordWaterSheet;
-        private static Texture2D[] wordWinSheet;
-        private static Texture2D[] wordYouSheet;
-        public static World CreateWorld(ContentManager contentManager, Level level)
+        private static Dictionary<string, Texture2D[]> spriteSheets;
+
+        public static World CreateWorld(Level level)
         {
-            InitializeSheets(contentManager);
-            // TODO: parse the level file
+            // TODO: add systems to world
+            // TODO: create entities based on level's layout
             // TODO: return the world
             throw new NotImplementedException();
         }
 
         private static bool sheetsInitialized = false;
-        private static void InitializeSheets(ContentManager contentManager)
+        public static void InitializeSheets(ContentManager contentManager)
         {
             if (!sheetsInitialized)
             {
+                spriteSheets = new Dictionary<string, Texture2D[]>();
                 Texture2D bigBlue = contentManager.Load<Texture2D>("Textures/BigBlue/BigBlue");
-                bigBlueSheet = new Texture2D[] { bigBlue };
-                flagSheet = createSpriteSheet(contentManager, "Flag", "flag");
-                floorSheet = createSpriteSheet(contentManager, "Floor", "floor");
-                flowersSheet = createSpriteSheet(contentManager, "Flowers", "flowers");
-                grassSheet = createSpriteSheet(contentManager, "Grass", "grass");
-                hedgeSheet = createSpriteSheet(contentManager, "Hedge", "hedge");
-                lavaSheet = createSpriteSheet(contentManager, "Lava", "lava");
-                rockSheet = createSpriteSheet(contentManager, "Rock", "rock");
-                wallSheet = createSpriteSheet(contentManager, "Wall", "wall");
-                waterSheet = createSpriteSheet(contentManager, "Water", "water");
-                wordBabaSheet = createSpriteSheet(contentManager, "Word-Baba", "word-baba");
-                wordFlagSheet = createSpriteSheet(contentManager, "Word-Flag", "word-flag");
-                wordIsSheet = createSpriteSheet(contentManager, "Word-Is", "word-is");
-                wordKillSheet = createSpriteSheet(contentManager, "Word-Kill", "word-kill");
-                wordLavaSheet = createSpriteSheet(contentManager, "Word-Lava", "word-lava");
-                wordPushSheet = createSpriteSheet(contentManager, "Word-Push", "word-push");
-                wordRockSheet = createSpriteSheet(contentManager, "Word-Rock", "word-rock");
-                wordSinkSheet = createSpriteSheet(contentManager, "Word-Sink", "word-sink");
-                wordStopSheet = createSpriteSheet(contentManager, "Word-Stop", "word-stop");
-                wordWallSheet = createSpriteSheet(contentManager, "Word-Wall", "word-wall");
-                wordWaterSheet = createSpriteSheet(contentManager, "Word-Water", "word-water");
-                wordWinSheet = createSpriteSheet(contentManager, "Word-Win", "word-win");
-                wordYouSheet = createSpriteSheet(contentManager, "Word-You", "word-you");
+                spriteSheets["bigBlueSheet"] = new Texture2D[] { bigBlue };
+                spriteSheets["flagSheet"] = createSpriteSheet(contentManager, "Flag", "flag");
+                spriteSheets["floorSheet"] = createSpriteSheet(contentManager, "Floor", "floor");
+                spriteSheets["flowersSheet"] = createSpriteSheet(contentManager, "Flowers", "flowers");
+                spriteSheets["grassSheet"] = createSpriteSheet(contentManager, "Grass", "grass");
+                spriteSheets["hedgeSheet"] = createSpriteSheet(contentManager, "Hedge", "hedge");
+                spriteSheets["lavaSheet"] = createSpriteSheet(contentManager, "Lava", "lava");
+                spriteSheets["rockSheet"] = createSpriteSheet(contentManager, "Rock", "rock");
+                spriteSheets["wallSheet"] = createSpriteSheet(contentManager, "Wall", "wall");
+                spriteSheets["waterSheet"] = createSpriteSheet(contentManager, "Water", "water");
+                spriteSheets["wordBabaSheet"] = createSpriteSheet(contentManager, "Word-Baba", "word-baba");
+                spriteSheets["wordFlagSheet"] = createSpriteSheet(contentManager, "Word-Flag", "word-flag");
+                spriteSheets["wordIsSheet"] = createSpriteSheet(contentManager, "Word-Is", "word-is");
+                spriteSheets["wordKillSheet"] = createSpriteSheet(contentManager, "Word-Kill", "word-kill");
+                spriteSheets["wordLavaSheet"] = createSpriteSheet(contentManager, "Word-Lava", "word-lava");
+                spriteSheets["wordPushSheet"] = createSpriteSheet(contentManager, "Word-Push", "word-push");
+                spriteSheets["wordRockSheet"] = createSpriteSheet(contentManager, "Word-Rock", "word-rock");
+                spriteSheets["wordSinkSheet"] = createSpriteSheet(contentManager, "Word-Sink", "word-sink");
+                spriteSheets["wordStopSheet"] = createSpriteSheet(contentManager, "Word-Stop", "word-stop");
+                spriteSheets["wordWallSheet"] = createSpriteSheet(contentManager, "Word-Wall", "word-wall");
+                spriteSheets["wordWaterSheet"] = createSpriteSheet(contentManager, "Word-Water", "word-water");
+                spriteSheets["wordWinSheet"] = createSpriteSheet(contentManager, "Word-Win", "word-win");
+                spriteSheets["wordYouSheet"] = createSpriteSheet(contentManager, "Word-You", "word-you");
+                sheetsInitialized = true;
             }
         }
         private static Texture2D[] createSpriteSheet(ContentManager contentManager, string parentFolder, string objectName)

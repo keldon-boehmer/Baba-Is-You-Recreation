@@ -62,6 +62,8 @@ namespace BigBlue
             moveEffect = contentManager.Load<SoundEffect>("Sound/move");
             onVictoryEffect = contentManager.Load<SoundEffect>("Sound/victory");
             onIsWinConditionChangeEffect = contentManager.Load<SoundEffect>("Sound/winConditionChange");
+
+            WorldCreator.InitializeSheets(contentManager);
         }
 
         public override GameStateEnum processInput(GameTime gameTime)
