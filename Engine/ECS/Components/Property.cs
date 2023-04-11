@@ -8,6 +8,23 @@
         public bool isKill;
         public bool isWin;
 
+        public Property()
+        {
+            isYou = false;
+            isPush = false;
+            isStop = false;
+            isKill = false;
+            isWin = false;
+        }
+        public Property(bool isPush)
+        {
+            isYou = false;
+            this.isPush = isPush;
+            isStop = false;
+            isKill = false;
+            isWin = false;
+        }
+        
         public Property(bool isYou, bool isPush, bool isStop, bool isKill, bool isWin)
         {
             this.isYou = isYou;
@@ -17,22 +34,9 @@
             this.isWin = isWin;
         }
 
-        public Property(bool isPush)
+        public Property Clone()
         {
-            isYou = false;
-            this.isPush = isPush;
-            isStop = false;
-            isKill = false;
-            isWin = false;
-        }
-
-        public Property()
-        {
-            isYou = false;
-            isPush = false;
-            isStop = false;
-            isKill = false;
-            isWin = false;
+            return new Property(isYou, isPush, isStop, isKill, isWin);
         }
     }
 }

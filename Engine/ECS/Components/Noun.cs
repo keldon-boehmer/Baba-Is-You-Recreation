@@ -8,5 +8,10 @@
         {
             _type = type;
         }
+
+        public Noun Clone()
+        {
+            return new Noun(_type);
+        }
     }
 }
