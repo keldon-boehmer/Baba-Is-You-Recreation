@@ -60,7 +60,6 @@ namespace BigBlue
             floor.Attach(new Position(position));
             floor.Attach(new Noun(NounType.Floor));
             floor.Attach(new Animation(spriteSheet, Color.GhostWhite));
-            floor.Attach(new Property());
         }
         public static void CreateGrass(World world, Vector2 position, Texture2D[] spriteSheet)
         {
@@ -68,7 +67,6 @@ namespace BigBlue
             grass.Attach(new Position(position));
             grass.Attach(new Noun(NounType.Grass));
             grass.Attach(new Animation(spriteSheet, Color.Green));
-            grass.Attach(new Property());
         }
         public static void CreateHedge(World world, Vector2 position, Texture2D[] spriteSheet)
         {
@@ -76,7 +74,6 @@ namespace BigBlue
             hedge.Attach(new Position(position));
             hedge.Attach(new Noun(NounType.Hedge));
             hedge.Attach(new Animation(spriteSheet, Color.Green));
-            hedge.Attach(new Property());
         }
 
         // TODO : Add to these two methods to suit what you need for the rules system. However you want to handle the Text component.
