@@ -15,5 +15,10 @@ namespace BigBlue
         {
             _position = position;
         }
+
+        public Position Clone()
+        {
+            return new Position(_position);
+        }
     }
 }

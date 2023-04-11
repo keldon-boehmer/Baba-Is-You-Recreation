@@ -12,9 +12,20 @@ namespace BigBlue
 
         public static World CreateWorld(Level level, int screenWidth, int screenHeight, SpriteBatch spriteBatch)
         {
+            int gridHeight = screenHeight / level.Height;
+            int gridWidth = gridHeight;
+            int gameplayWidth = gridWidth * level.Width;
+            int renderStartX = (screenWidth - gameplayWidth) / 2;
+
+            if (gameplayWidth > screenWidth)
+            {
+                gridWidth = screenWidth / level.Width;
+                renderStartX = 0;
+            }
+
             // TODO: add ALL systems to worldBuilder, build world
             /*var world = new WorldBuilder()
-                .AddSystem(new AnimationSystem(screenWidth / level.Width, screenHeight / level.Height, spriteBatch))
+                .AddSystem(new AnimationSystem(gridWidth, gridHeight, renderStartX, spriteBatch))
                 .Build();*/
             
             // TODO: create entities based on level's layout

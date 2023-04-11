@@ -12,13 +12,15 @@ namespace BigBlue
 
         private int _gridWidth;
         private int _gridHeight;
+        private int _renderStartX;
         private SpriteBatch _spriteBatch;
 
-        public AnimationSystem(int gridWidth, int gridHeight, SpriteBatch spriteBatch)
+        public AnimationSystem(int gridWidth, int gridHeight, int renderStartX, SpriteBatch spriteBatch)
             : base(Aspect.All(typeof(Animation), typeof(Position)))
         {
             _gridWidth = gridWidth;
             _gridHeight = gridHeight;
+            _renderStartX = renderStartX;
             _spriteBatch = spriteBatch;
         }
 
@@ -53,7 +55,7 @@ namespace BigBlue
                 var animation = _animationMapper.Get(entityId);
                 var position = _positionMapper.Get(entityId);
 
-                r.X = _gridWidth * (int)position._position.X;
+                r.X = _renderStartX + _gridWidth * (int)position._position.X;
                 r.Y = _gridHeight * (int)position._position.Y;
 
                 _spriteBatch.Draw(animation.Frames[animation.CurrentFrame], r, animation.Color);

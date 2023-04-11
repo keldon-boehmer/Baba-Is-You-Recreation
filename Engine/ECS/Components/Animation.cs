@@ -20,5 +20,18 @@ namespace BigBlue
             Color = color;
         }
 
+        private Animation(int frameTime, int currentFrame, int elapsedTime, Texture2D[] frames, Color color)
+        {
+            FrameTime = frameTime;
+            CurrentFrame = currentFrame;
+            ElapsedTime = elapsedTime;
+            Frames = frames;
+            Color = color;
+        }
+
+        public Animation Clone()
+        {
+            return new Animation(FrameTime, CurrentFrame, ElapsedTime, Frames, Color);
+        }
     }
 }

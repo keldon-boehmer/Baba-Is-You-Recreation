@@ -8,6 +8,9 @@
         Rock,
         Lava,
         Water,
+        Floor,
+        Grass,
+        Hedge,
         Noun,
         Verb
     }
