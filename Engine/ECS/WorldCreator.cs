@@ -25,7 +25,11 @@ namespace BigBlue
 
             // TODO: add ALL systems to worldBuilder, build world
             /*var world = new WorldBuilder()
+                .AddSystem(new MovementSystem())
+                .AddSystem(new RulesSystem())
                 .AddSystem(new AnimationSystem(gridWidth, gridHeight, renderStartX, spriteBatch))
+                .AddSystem(new KillSystem())
+                .AddSystem(new WinSystem())
                 .Build();*/
             
             // TODO: create entities based on level's layout

@@ -28,7 +28,7 @@ namespace BigBlue
         private bool gameStarted = true;
         private bool musicStarted = false;
         private bool waitedOnMusic = false;
-        private bool fanfarePlayed = false;
+        private bool victoryEffectsPlayed = false;
 
         World currentWorld;
         World clonedWorld;
@@ -134,7 +134,7 @@ namespace BigBlue
             }
             else
             {
-                if (!fanfarePlayed)
+                if (!victoryEffectsPlayed)
                 {
                     InputManager.Instance.ProcessInput();
                 }
@@ -159,7 +159,7 @@ namespace BigBlue
                 //clonedWorld = clone of current world
             }
 
-            playSoundEffects();
+            particleAndSoundEffects();
 
             if (InputManager.Instance.undo)
             {
@@ -255,7 +255,7 @@ namespace BigBlue
             ParticleSystem.ClearParticles();
             musicStarted = false;
             waitedOnMusic = false;
-            fanfarePlayed = false;
+            victoryEffectsPlayed = false;
             MediaPlayer.Stop();
             undoStack = new Stack<World>();
             GameStatus.resetDefaults();
@@ -280,7 +280,7 @@ namespace BigBlue
             }
         }
 
-        private void playSoundEffects()
+        private void particleAndSoundEffects()
         {
             if (GameStatus.winConditionChanged)
             {
@@ -292,10 +292,11 @@ namespace BigBlue
                 moveEffect.Play();
                 GameStatus.playerMoved = false;
             }
-            if (GameStatus.playerWon && !fanfarePlayed)
+            if (GameStatus.playerWon && !victoryEffectsPlayed)
             {
                 onVictoryEffect.Play();
-                fanfarePlayed = true;
+                ParticleSystem.PlayerIsWin(3, 500, 5f, new TimeSpan(0, 0, 0, 0, 3000), new Vector2(screenWidth, screenHeight));
+                victoryEffectsPlayed = true;
             }
         }
     }
