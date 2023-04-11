@@ -25,6 +25,7 @@ namespace BigBlue
 
         private bool gameStarted = true;
         private bool musicStarted = false;
+        private bool waitedOnMusic = false;
 
         private enum PauseState
         {
@@ -85,16 +86,17 @@ namespace BigBlue
             }
             if (gameStarted)
             {
-                
-                if (!musicStarted)
+                if (!waitedOnMusic)
+                {
+                    waitedOnMusic = true;
+                }
+                else if (!musicStarted)
                 {
                     MediaPlayer.Play(music);
                     musicStarted = true;
                 }
                 updateGameplay(gameTime);
             }
-
-            InputManager.Instance.ResetInputs();
         }
 
         public override void render(GameTime gameTime)
@@ -150,6 +152,13 @@ namespace BigBlue
                 onVictoryEffect.Play();
                 ParticleSystem.PlayerIsWin(1, 500, 5f, new TimeSpan(0, 0, 0, 0, 3000), new Vector2(screenWidth, screenHeight));
             }
+            if (InputManager.Instance.undo)
+            {
+                // pop world off stack to equal current world
+                // clone world and set to clonedWorld
+            }
+
+            InputManager.Instance.ResetInputs();
         }
 
         private void renderPlay()
@@ -190,9 +199,8 @@ namespace BigBlue
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Enter) && currentSelection == PauseState.Exit)
                 {
+                    resetDefaults();
                     paused = false;
-                    currentSelection = 0;
-                    ParticleSystem.ClearParticles();
                     waitForKeyRelease = true;
                     return GameStateEnum.LevelSelect;
                 }
@@ -228,5 +236,15 @@ namespace BigBlue
         }
         #endregion
 
+        private void resetDefaults()
+        {
+            currentSelection = 0;
+            ParticleSystem.ClearParticles();
+            musicStarted = false;
+            waitedOnMusic = false;
+            MediaPlayer.Stop();
+            // create new empty undoStack
+            // reset GameStatus defaults
+        }
     }
 }
