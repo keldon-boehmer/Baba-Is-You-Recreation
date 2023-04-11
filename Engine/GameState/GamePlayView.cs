@@ -154,7 +154,7 @@ namespace BigBlue
             if (GameStatus.playerMoved)
             {
                 undoStack.Push(clonedWorld);
-                
+
                 //TODO : Implement clone current world method.
                 //clonedWorld = clone of current world
             }
