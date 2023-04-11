@@ -58,7 +58,7 @@ namespace BigBlue
         {
             var floor = world.CreateEntity();
             floor.Attach(new Position(position));
-            floor.Attach(new Noun(NounType.Water));
+            floor.Attach(new Noun(NounType.Floor));
             floor.Attach(new Animation(spriteSheet, Color.GhostWhite));
             floor.Attach(new Property());
         }
@@ -66,7 +66,7 @@ namespace BigBlue
         {
             var grass = world.CreateEntity();
             grass.Attach(new Position(position));
-            grass.Attach(new Noun(NounType.Water));
+            grass.Attach(new Noun(NounType.Grass));
             grass.Attach(new Animation(spriteSheet, Color.Green));
             grass.Attach(new Property());
         }
@@ -74,7 +74,7 @@ namespace BigBlue
         {
             var hedge = world.CreateEntity();
             hedge.Attach(new Position(position));
-            hedge.Attach(new Noun(NounType.Water));
+            hedge.Attach(new Noun(NounType.Hedge));
             hedge.Attach(new Animation(spriteSheet, Color.Green));
             hedge.Attach(new Property());
         }
