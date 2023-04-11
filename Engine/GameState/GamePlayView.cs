@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
 using Microsoft.Xna.Framework.Audio;
+using MonoGame.Extended.Entities;
+using System.Collections.Generic;
 
 namespace BigBlue
 {
@@ -25,6 +27,12 @@ namespace BigBlue
 
         private bool gameStarted = true;
         private bool musicStarted = false;
+        private bool waitedOnMusic = false;
+        private bool fanfarePlayed = false;
+
+        World currentWorld;
+        World clonedWorld;
+        Stack<World> undoStack = new Stack<World>();
 
         private enum PauseState
         {
@@ -85,16 +93,17 @@ namespace BigBlue
             }
             if (gameStarted)
             {
-                
-                if (!musicStarted)
+                if (!waitedOnMusic)
+                {
+                    waitedOnMusic = true;
+                }
+                else if (!musicStarted)
                 {
                     MediaPlayer.Play(music);
                     musicStarted = true;
                 }
                 updateGameplay(gameTime);
             }
-
-            InputManager.Instance.ResetInputs();
         }
 
         public override void render(GameTime gameTime)
@@ -109,7 +118,7 @@ namespace BigBlue
             {
                 if (gameStarted)
                 {
-                    renderPlay();
+                    renderPlay(gameTime);
                 }
             }
 
@@ -125,9 +134,11 @@ namespace BigBlue
             }
             else
             {
-                InputManager.Instance.ProcessInput();
+                if (!fanfarePlayed)
+                {
+                    InputManager.Instance.ProcessInput();
+                }
             }
-            
         }
 
         private void updateGameplay(GameTime gameTime)
@@ -135,26 +146,37 @@ namespace BigBlue
 
             ParticleSystem.update(gameTime);
 
-            if (InputManager.Instance.moveDown)
+            //currentWorld.Update(gameTime);
+
+            // Temporary, can be removed once gameplay is implemented
+            particleSoundsTest();
+
+            if (GameStatus.playerMoved)
             {
-                moveEffect.Play();
-                ParticleSystem.OnDeath(new Rectangle(100, 100, 40, 40), 50, 2f, new TimeSpan(0, 0, 0, 0, 3000), Color.Yellow);
+                undoStack.Push(clonedWorld);
+
+                //TODO : Implement clone current world method.
+                //clonedWorld = clone of current world
             }
-            if (InputManager.Instance.moveLeft)
+
+            playSoundEffects();
+
+            if (InputManager.Instance.undo)
             {
-                onIsWinConditionChangeEffect.Play();
-                ParticleSystem.IsWinOrIsYou(new Rectangle(100, 100, 40, 40), 10, 2f, new TimeSpan(0, 0, 0, 0, 3000), Color.Yellow);
+                if (undoStack.Count > 0)
+                {
+                    currentWorld = undoStack.Pop();
+                    // clonedWorld = clone of currentWorld;
+                }
             }
-            if (InputManager.Instance.moveRight)
-            {
-                onVictoryEffect.Play();
-                ParticleSystem.PlayerIsWin(1, 500, 5f, new TimeSpan(0, 0, 0, 0, 3000), new Vector2(screenWidth, screenHeight));
-            }
+
+            InputManager.Instance.ResetInputs();
         }
 
-        private void renderPlay()
+        private void renderPlay(GameTime gameTime)
         {
             ParticleSystem.draw(spriteBatch);
+            //currentWorld.Draw(gameTime);
         }
 
         #endregion
@@ -190,9 +212,8 @@ namespace BigBlue
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Enter) && currentSelection == PauseState.Exit)
                 {
+                    resetDefaults();
                     paused = false;
-                    currentSelection = 0;
-                    ParticleSystem.ClearParticles();
                     waitForKeyRelease = true;
                     return GameStateEnum.LevelSelect;
                 }
@@ -228,5 +249,54 @@ namespace BigBlue
         }
         #endregion
 
+        private void resetDefaults()
+        {
+            currentSelection = 0;
+            ParticleSystem.ClearParticles();
+            musicStarted = false;
+            waitedOnMusic = false;
+            fanfarePlayed = false;
+            MediaPlayer.Stop();
+            undoStack = new Stack<World>();
+            GameStatus.resetDefaults();
+        }
+
+        private void particleSoundsTest()
+        {
+            if (InputManager.Instance.moveDown)
+            {
+                moveEffect.Play();
+                ParticleSystem.OnDeath(new Rectangle(100, 100, 40, 40), 50, 2f, new TimeSpan(0, 0, 0, 0, 3000), Color.Yellow);
+            }
+            if (InputManager.Instance.moveLeft)
+            {
+                onIsWinConditionChangeEffect.Play();
+                ParticleSystem.IsWinOrIsYou(new Rectangle(100, 100, 40, 40), 10, 2f, new TimeSpan(0, 0, 0, 0, 3000), Color.Yellow);
+            }
+            if (InputManager.Instance.moveRight)
+            {
+                onVictoryEffect.Play();
+                ParticleSystem.PlayerIsWin(1, 500, 5f, new TimeSpan(0, 0, 0, 0, 3000), new Vector2(screenWidth, screenHeight));
+            }
+        }
+
+        private void playSoundEffects()
+        {
+            if (GameStatus.winConditionChanged)
+            {
+                onIsWinConditionChangeEffect.Play();
+                GameStatus.winConditionChanged = false;
+            }
+            if (GameStatus.playerMoved)
+            {
+                moveEffect.Play();
+                GameStatus.playerMoved = false;
+            }
+            if (GameStatus.playerWon && !fanfarePlayed)
+            {
+                onVictoryEffect.Play();
+                fanfarePlayed = true;
+            }
+        }
     }
 }
