@@ -17,7 +17,7 @@ namespace BigBlue
             int gameplayWidth = gridWidth * level.Width;
             int renderStartX = (screenWidth - gameplayWidth) / 2;
 
-            if (gridWidth * level.Width > screenWidth)
+            if (gameplayWidth > screenWidth)
             {
                 gridWidth = screenWidth / level.Width;
                 renderStartX = 0;

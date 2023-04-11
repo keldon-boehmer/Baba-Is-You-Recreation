@@ -16,5 +16,23 @@
             this.isKill = isKill;
             this.isWin = isWin;
         }
+
+        public Property(bool isPush)
+        {
+            isYou = false;
+            this.isPush = isPush;
+            isStop = false;
+            isKill = false;
+            isWin = false;
+        }
+
+        public Property()
+        {
+            isYou = false;
+            isPush = false;
+            isStop = false;
+            isKill = false;
+            isWin = false;
+        }
     }
 }
