@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
 using Microsoft.Xna.Framework.Audio;
+using MonoGame.Extended.Entities;
+using System.Collections.Generic;
 
 namespace BigBlue
 {
@@ -26,6 +28,10 @@ namespace BigBlue
         private bool gameStarted = true;
         private bool musicStarted = false;
         private bool waitedOnMusic = false;
+
+        World currentWorld = new WorldBuilder().Build();
+        World clonedWorld;
+        Stack<World> undoStack = new Stack<World>();
 
         private enum PauseState
         {
@@ -154,8 +160,11 @@ namespace BigBlue
             }
             if (InputManager.Instance.undo)
             {
-                // pop world off stack to equal current world
-                // clone world and set to clonedWorld
+                if (undoStack.Count > 0)
+                {
+                    currentWorld = undoStack.Pop();
+                    // clonedWorld = clone of currentWorld;
+                }
             }
 
             InputManager.Instance.ResetInputs();
@@ -243,7 +252,7 @@ namespace BigBlue
             musicStarted = false;
             waitedOnMusic = false;
             MediaPlayer.Stop();
-            // create new empty undoStack
+            undoStack = new Stack<World>();
             // reset GameStatus defaults
         }
     }
