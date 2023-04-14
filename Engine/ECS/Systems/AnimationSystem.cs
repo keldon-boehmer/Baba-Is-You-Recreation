@@ -55,8 +55,8 @@ namespace BigBlue
                 var animation = _animationMapper.Get(entityId);
                 var position = _positionMapper.Get(entityId);
 
-                r.X = _renderStartX + _gridWidth * (int)position._position.X;
-                r.Y = _gridHeight * (int)position._position.Y;
+                r.X = _renderStartX + _gridWidth * (int)position.Coordinates.X;
+                r.Y = _gridHeight * (int)position.Coordinates.Y;
 
                 _spriteBatch.Draw(animation.Frames[animation.CurrentFrame], r, animation.Color);
             }
