@@ -4,21 +4,21 @@ namespace BigBlue
 {
     public class Position
     {
-        public Vector2 _position;
+        public Vector2 Coordinates;
 
         public Position(int x, int y)
         {
-            _position = new Vector2(x, y);
+            Coordinates = new Vector2(x, y);
         }
 
         public Position(Vector2 position)
         {
-            _position = position;
+            Coordinates = position;
         }
 
         public Position Clone()
         {
-            return new Position(_position);
+            return new Position(Coordinates);
         }
     }
 }
