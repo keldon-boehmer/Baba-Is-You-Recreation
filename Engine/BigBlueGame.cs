@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace BigBlue
 {
@@ -26,7 +27,7 @@ namespace BigBlue
             graphics.ApplyChanges();
 
             // Create levels
-            createLevels();
+            LevelManager.Instance.CreateAllLevels();
 
             // Create all game states
             states = new Dictionary<GameStateEnum, IGameState>
@@ -82,14 +83,6 @@ namespace BigBlue
             currentState = states[nextStateEnum];
 
             base.Draw(gameTime);
-        }
-
-        // TODO : Make this method parse the input levels file to create levels. Alternatively, implement the method in LevelManager and call it in this file's Initialize method.
-        private void createLevels()
-        {
-            LevelManager.Instance.AddLevel(new Level("Level 1", 10, 10));
-            LevelManager.Instance.AddLevel(new Level("Level 2", 10, 10));
-            LevelManager.Instance.AddLevel(new Level("Level 3", 10, 10));
         }
     }
 }
