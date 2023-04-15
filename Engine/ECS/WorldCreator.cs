@@ -4,7 +4,7 @@ using MonoGame.Extended.Entities;
 using System;
 using System.Collections.Generic;
 
-namespace BigBlue.ECS
+namespace BigBlue
 {
     public static class WorldCreator
     {
