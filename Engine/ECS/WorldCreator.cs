@@ -4,7 +4,7 @@ using MonoGame.Extended.Entities;
 using System;
 using System.Collections.Generic;
 
-namespace BigBlue
+namespace BigBlue.ECS
 {
     public static class WorldCreator
     {
@@ -24,17 +24,18 @@ namespace BigBlue
             }
 
             // TODO: add ALL systems to worldBuilder, build world
-            /*var world = new WorldBuilder()
-                .AddSystem(new MovementSystem())
-                .AddSystem(new RulesSystem())
+            var world = new WorldBuilder()
+                //.AddSystem(new MovementSystem())
+                //.AddSystem(new RulesSystem())
                 .AddSystem(new AnimationSystem(gridWidth, gridHeight, renderStartX, spriteBatch))
-                .AddSystem(new KillSystem())
-                .AddSystem(new WinSystem())
-                .Build();*/
-            
+                //.AddSystem(new KillSystem())
+                //.AddSystem(new WinSystem())
+                .Build();
+
             // TODO: create entities based on level's layout
-            // TODO: return the world
-            throw new NotImplementedException();
+
+
+            return world;
         }
 
         #region Sprite Sheet Loading

@@ -26,12 +26,12 @@ namespace BigBlue
                 if (Keyboard.GetState().IsKeyDown(Keys.S))
                 {
                     waitForKeyRelease = true;
-                    LevelManager.Instance.addCurrentLevelIndex();
+                    LevelManager.Instance.AddCurrentLevelIndex();
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.W))
                 {
                     waitForKeyRelease = true;
-                    LevelManager.Instance.subtractCurrentLevelIndex();
+                    LevelManager.Instance.SubtractCurrentLevelIndex();
                 }
 
                 // If enter is pressed, return the appropriate new state
@@ -66,10 +66,10 @@ namespace BigBlue
             for (int i = 0; i < LevelManager.Instance.LevelCount; i++)
             {
                 SpriteFont textFont = fontMenu;
-                string text = LevelManager.Instance.getLevelName(i);
+                string text = LevelManager.Instance.GetLevelName(i);
                 Color textColor = Color.Blue;
 
-                if (LevelManager.Instance.equalsCurrentLevelIndex(i))
+                if (LevelManager.Instance.EqualsCurrentLevelIndex(i))
                 {
                     textColor = Color.Yellow;
                     textFont = fontMenuSelect;

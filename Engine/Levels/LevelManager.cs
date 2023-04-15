@@ -4,18 +4,13 @@ namespace BigBlue
 {
     public class LevelManager
     {
-        private List<Level> levels;
+        private List<Level> _levels = new List<Level>();
 
-        public int currentLevelIndex;
+        private int _currentLevelIndex = 0;
 
         private static LevelManager instance;
 
-
-        private LevelManager()
-        {
-            currentLevelIndex = 0;
-            levels = new List<Level>();
-        }
+        private LevelManager() { }
 
         public static LevelManager Instance
         {
@@ -28,42 +23,42 @@ namespace BigBlue
                 return instance;
             }
         }
-        public Level getCurrentLevel()
+        public Level GetCurrentLevel()
         {
-            return levels[currentLevelIndex];
+            return _levels[_currentLevelIndex];
         }
 
-        public void addLevel(Level newLevel)
+        public void AddLevel(Level newLevel)
         {
-            levels.Add(newLevel);
+            _levels.Add(newLevel);
         }
 
         #region Level Select Menuing
-        public int LevelCount { get { return levels.Count; } }
-        public void addCurrentLevelIndex()
+        public int LevelCount { get { return _levels.Count; } }
+        public void AddCurrentLevelIndex()
         {
-            if (currentLevelIndex < levels.Count - 1)
+            if (_currentLevelIndex < _levels.Count - 1)
             {
-                currentLevelIndex++;
+                _currentLevelIndex++;
             }
         }
 
-        public void subtractCurrentLevelIndex()
+        public void SubtractCurrentLevelIndex()
         {
-            if (currentLevelIndex > 0)
+            if (_currentLevelIndex > 0)
             {
-                currentLevelIndex--;
+                _currentLevelIndex--;
             }
         }
 
-        public bool equalsCurrentLevelIndex(int n)
+        public bool EqualsCurrentLevelIndex(int n)
         {
-            return currentLevelIndex == n;
+            return _currentLevelIndex == n;
         }
 
-        public string getLevelName(int index)
+        public string GetLevelName(int index)
         {
-            return levels[index].Name;
+            return _levels[index].Name;
         }
 
         #endregion
