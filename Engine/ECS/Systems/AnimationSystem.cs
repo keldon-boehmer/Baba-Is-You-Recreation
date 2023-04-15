@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Entities;
 using MonoGame.Extended.Entities.Systems;
 
-namespace BigBlue.ECS
+namespace BigBlue
 {
-    internal class AnimationSystem : EntityUpdateSystem, IDrawSystem
+    public class AnimationSystem : EntityUpdateSystem, IDrawSystem
     {
         private ComponentMapper<Animation> _animationMapper;
         private ComponentMapper<Position> _positionMapper;
@@ -23,6 +23,7 @@ namespace BigBlue.ECS
             _renderStartX = renderStartX;
             _spriteBatch = spriteBatch;
         }
+
 
         public override void Initialize(IComponentMapperService mapperService)
         {
@@ -54,8 +55,8 @@ namespace BigBlue.ECS
                 var animation = _animationMapper.Get(entityId);
                 var position = _positionMapper.Get(entityId);
 
-                r.X = _renderStartX + _gridWidth * (int)position._position.X;
-                r.Y = _gridHeight * (int)position._position.Y;
+                r.X = _renderStartX + _gridWidth * (int)position.Coordinates.X;
+                r.Y = _gridHeight * (int)position.Coordinates.Y;
 
                 _spriteBatch.Draw(animation.Frames[animation.CurrentFrame], r, animation.Color);
             }
