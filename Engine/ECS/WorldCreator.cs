@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using BigBlue.ECS;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Entities;
 using System;
@@ -8,7 +10,7 @@ namespace BigBlue
 {
     public static class WorldCreator
     {
-        private static Dictionary<string, Texture2D[]> spriteSheets;
+        private static Dictionary<char, Texture2D[]> spriteSheets = new Dictionary<char, Texture2D[]>();
 
         public static World CreateWorld(Level level, int screenWidth, int screenHeight, SpriteBatch spriteBatch)
         {
@@ -23,17 +25,114 @@ namespace BigBlue
                 renderStartX = 0;
             }
 
-            // TODO: add ALL systems to worldBuilder, build world
+            // TODO: add ALL systems to WorldBuilder, build world
             var world = new WorldBuilder()
                 //.AddSystem(new MovementSystem())
                 //.AddSystem(new RulesSystem())
                 .AddSystem(new AnimationSystem(gridWidth, gridHeight, renderStartX, spriteBatch))
                 //.AddSystem(new KillSystem())
-                //.AddSystem(new WinSystem())
+                .AddSystem(new WinSystem())
                 .Build();
 
-            // TODO: create entities based on level's layout
+            // TODO: Create Entities based on the Level's Object Layout
+            for (int i = 0; i < level.ObjectLayout.GetLength(0); i++)
+            {
+                for (int j = 0; j < level.ObjectLayout.GetLength(1); j++)
+                {
+                    if (level.ObjectLayout[i, j] == ' ') continue;
 
+                    Vector2 position = new Vector2(i, j);
+                    Texture2D[] spriteSheet = spriteSheets[level.ObjectLayout[i, j]];
+                    switch (level.ObjectLayout[i, j])
+                    {
+                        case 'w':
+                            EntityCreator.CreateWall(world, position, spriteSheet);
+                            break;
+                        case 'r':
+                            EntityCreator.CreateRock(world, position, spriteSheet);
+                            break;
+                        case 'f':
+                            EntityCreator.CreateFlag(world, position, spriteSheet);
+                            break;
+                        case 'b':
+                            EntityCreator.CreateBigBlue(world, position, spriteSheet);
+                            break;
+                        case 'l':
+                            EntityCreator.CreateFloor(world, position, spriteSheet);
+                            break;
+                        case 'g':
+                            EntityCreator.CreateGrass(world, position, spriteSheet);
+                            break;
+                        case 'a':
+                            EntityCreator.CreateWater(world, position, spriteSheet);
+                            break;
+                        case 'v':
+                            EntityCreator.CreateLava(world, position, spriteSheet);
+                            break;
+                        case 'h':
+                            EntityCreator.CreateHedge(world, position, spriteSheet);
+                            break;
+                        default:
+                            throw new Exception();
+                    }
+                }
+            }
+
+            // TODO: Create Entities based on the Level's Text Layout
+            for (int i = 0; i < level.TextLayout.GetLength(0); i++)
+            {
+                for (int j = 0; j < level.TextLayout.GetLength(1); j++)
+                {
+                    if (level.ObjectLayout[i, j] == ' ') continue;
+
+                    Vector2 position = new Vector2(i, j);
+                    Texture2D[] spriteSheet = spriteSheets[level.ObjectLayout[i, j]];
+                    switch (level.TextLayout[i, j])
+                    {
+                        case 'W':
+                            EntityCreator.CreateWallText(world, position, spriteSheet);
+                            break;
+                        case 'R':
+                            EntityCreator.CreateRockText(world, position, spriteSheet);
+                            break;
+                        case 'F':
+                            EntityCreator.CreateFlagText(world, position, spriteSheet);
+                            break;
+                        case 'B':
+                            EntityCreator.CreateBigBlueText(world, position, spriteSheet);
+                            break;
+                        case 'I':
+                            EntityCreator.CreateIsText(world, position, spriteSheet);
+                            break;
+                        case 'S':
+                            EntityCreator.CreateStopText(world, position, spriteSheet);
+                            break;
+                        case 'P':
+                            EntityCreator.CreatePushText(world, position, spriteSheet);
+                            break;
+                        case 'V':
+                            EntityCreator.CreateLavaText(world, position, spriteSheet);
+                            break;
+                        case 'A':
+                            EntityCreator.CreateWaterText(world, position, spriteSheet);
+                            break;
+                        case 'Y':
+                            EntityCreator.CreateYouText(world, position, spriteSheet);
+                            break;
+                        case 'X':
+                            EntityCreator.CreateWinText(world, position, spriteSheet);
+                            break;
+                        case 'N':
+                            EntityCreator.CreateSinkText(world, position, spriteSheet);
+                            break;
+                        case 'K':
+                            EntityCreator.CreateKillText(world, position, spriteSheet);
+                            break;
+                        default:
+                            throw new Exception();
+                    }
+                }
+            }
 
             return world;
         }
@@ -44,32 +143,34 @@ namespace BigBlue
         {
             if (!sheetsInitialized)
             {
-                spriteSheets = new Dictionary<string, Texture2D[]>();
-                Texture2D bigBlue = contentManager.Load<Texture2D>("Textures/BigBlue/BigBlue");
-                spriteSheets["bigBlueSheet"] = new Texture2D[] { bigBlue };
-                spriteSheets["flagSheet"] = createSpriteSheet(contentManager, "Flag", "flag");
-                spriteSheets["floorSheet"] = createSpriteSheet(contentManager, "Floor", "floor");
-                spriteSheets["flowersSheet"] = createSpriteSheet(contentManager, "Flowers", "flowers");
-                spriteSheets["grassSheet"] = createSpriteSheet(contentManager, "Grass", "grass");
-                spriteSheets["hedgeSheet"] = createSpriteSheet(contentManager, "Hedge", "hedge");
-                spriteSheets["lavaSheet"] = createSpriteSheet(contentManager, "Lava", "lava");
-                spriteSheets["rockSheet"] = createSpriteSheet(contentManager, "Rock", "rock");
-                spriteSheets["wallSheet"] = createSpriteSheet(contentManager, "Wall", "wall");
-                spriteSheets["waterSheet"] = createSpriteSheet(contentManager, "Water", "water");
-                spriteSheets["wordBabaSheet"] = createSpriteSheet(contentManager, "Word-Baba", "word-baba");
-                spriteSheets["wordFlagSheet"] = createSpriteSheet(contentManager, "Word-Flag", "word-flag");
-                spriteSheets["wordIsSheet"] = createSpriteSheet(contentManager, "Word-Is", "word-is");
-                spriteSheets["wordKillSheet"] = createSpriteSheet(contentManager, "Word-Kill", "word-kill");
-                spriteSheets["wordLavaSheet"] = createSpriteSheet(contentManager, "Word-Lava", "word-lava");
-                spriteSheets["wordPushSheet"] = createSpriteSheet(contentManager, "Word-Push", "word-push");
-                spriteSheets["wordRockSheet"] = createSpriteSheet(contentManager, "Word-Rock", "word-rock");
-                spriteSheets["wordSinkSheet"] = createSpriteSheet(contentManager, "Word-Sink", "word-sink");
-                spriteSheets["wordStopSheet"] = createSpriteSheet(contentManager, "Word-Stop", "word-stop");
-                spriteSheets["wordWallSheet"] = createSpriteSheet(contentManager, "Word-Wall", "word-wall");
-                spriteSheets["wordWaterSheet"] = createSpriteSheet(contentManager, "Word-Water", "word-water");
-                spriteSheets["wordWinSheet"] = createSpriteSheet(contentManager, "Word-Win", "word-win");
-                spriteSheets["wordYouSheet"] = createSpriteSheet(contentManager, "Word-You", "word-you");
                 sheetsInitialized = true;
+                // Creating sprite sheets for Object Entities (lowercase char)
+                spriteSheets['w'] = createSpriteSheet(contentManager, "Wall", "wall");
+                spriteSheets['r'] = createSpriteSheet(contentManager, "Rock", "rock");
+                spriteSheets['f'] = createSpriteSheet(contentManager, "Flag", "flag");
+                Texture2D bigBlue = contentManager.Load<Texture2D>("Textures/BigBlue/BigBlue");
+                spriteSheets['b'] = new Texture2D[] { bigBlue };
+                spriteSheets['l'] = createSpriteSheet(contentManager, "Floor", "floor");
+                //charToSpriteSheet['f'] = createSpriteSheet(contentManager, "Flowers", "flowers");
+                spriteSheets['g'] = createSpriteSheet(contentManager, "Grass", "grass");
+                spriteSheets['a'] = createSpriteSheet(contentManager, "Water", "water");
+                spriteSheets['v'] = createSpriteSheet(contentManager, "Lava", "lava");
+                spriteSheets['h'] = createSpriteSheet(contentManager, "Hedge", "hedge");
+
+                // Creating sprite sheets for Text Entities (uppercase char)
+                spriteSheets['W'] = createSpriteSheet(contentManager, "Word-Wall", "word-wall");
+                spriteSheets['R'] = createSpriteSheet(contentManager, "Word-Rock", "word-rock");
+                spriteSheets['F'] = createSpriteSheet(contentManager, "Word-Flag", "word-flag");
+                spriteSheets['B'] = createSpriteSheet(contentManager, "Word-Baba", "word-baba");
+                spriteSheets['I'] = createSpriteSheet(contentManager, "Word-Is", "word-is");
+                spriteSheets['S'] = createSpriteSheet(contentManager, "Word-Stop", "word-stop");
+                spriteSheets['P'] = createSpriteSheet(contentManager, "Word-Push", "word-push");
+                spriteSheets['V'] = createSpriteSheet(contentManager, "Word-Lava", "word-lava");
+                spriteSheets['A'] = createSpriteSheet(contentManager, "Word-Water", "word-water");
+                spriteSheets['Y'] = createSpriteSheet(contentManager, "Word-You", "word-you");
+                spriteSheets['X'] = createSpriteSheet(contentManager, "Word-Win", "word-win");
+                spriteSheets['N'] = createSpriteSheet(contentManager, "Word-Sink", "word-sink");
+                spriteSheets['K'] = createSpriteSheet(contentManager, "Word-Kill", "word-kill");
             }
         }
         private static Texture2D[] createSpriteSheet(ContentManager contentManager, string parentFolder, string objectName)

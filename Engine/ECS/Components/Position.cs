@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace BigBlue
+namespace BigBlue.ECS
 {
-    public class Position
+    internal class Position
     {
         public Vector2 Coordinates;
 

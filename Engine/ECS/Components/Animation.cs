@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BigBlue
+namespace BigBlue.ECS
 {
-    public class Animation
+    internal class Animation
     {
         public int FrameTime { get; }
         public int CurrentFrame { get; set; }

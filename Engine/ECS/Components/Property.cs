@@ -7,6 +7,7 @@
         public bool isStop;
         public bool isKill;
         public bool isWin;
+        public bool isText;
 
         public Property()
         {
@@ -16,16 +17,8 @@
             isKill = false;
             isWin = false;
         }
-        public Property(bool isPush)
-        {
-            isYou = false;
-            this.isPush = isPush;
-            isStop = false;
-            isKill = false;
-            isWin = false;
-        }
         
-        public Property(bool isYou, bool isPush, bool isStop, bool isKill, bool isWin)
+        public Property(bool isYou = false, bool isPush = false, bool isStop = false, bool isKill = false, bool isWin = false)
         {
             this.isYou = isYou;
             this.isPush = isPush;

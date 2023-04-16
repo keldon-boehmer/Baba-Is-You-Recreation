@@ -3,9 +3,9 @@ using MonoGame.Extended.Entities;
 using MonoGame.Extended.Entities.Systems;
 using System.Collections.Generic;
 
-namespace BigBlue
+namespace BigBlue.ECS
 {
-    public class WinSystem : EntityUpdateSystem
+    internal class WinSystem : EntityUpdateSystem
     {
         // These are the mappers for entities, so we can retrieve their components in O(1) time
         private ComponentMapper<Position> _positionMapper;

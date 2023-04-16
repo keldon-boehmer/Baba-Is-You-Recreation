@@ -10,10 +10,8 @@ namespace BigBlue
         private string _name;
         public string Name { get { return _name; } }
 
-        public int Width { get { return Layout1.GetLength(0); } }
-        public int Height { get { return Layout1.GetLength(1); } }
-        //public int Width { get; set; }
-        //public int Height { get; set; }
+        public int Width { get { return ObjectLayout.GetLength(1); } }
+        public int Height { get { return ObjectLayout.GetLength(0); } }
 
         // The following definitions depend on if you want to parse out the levels into char[] immediately from the file or do it in the WorldCreator
         // Either way, we would need to parse a string into a list of char[] for the layouts. Depends on if you want to do it when initially reading the levels file
@@ -29,15 +27,15 @@ namespace BigBlue
         //public string layout2;
 
         // Choosing char[,] so I can verify the width/height
-        public char[,] Layout1;
-        public char[,] Layout2;
+        public char[,] ObjectLayout;  // top layout
+        public char[,] TextLayout;  // bottom layout
 
         // Note: because we need to be able to generate all Levels from levels-all.bbiy, I'm going to let LevelManager handle file parsing.
         public Level(string name, char[,] layout1, char[,] layout2)
         {
             _name = name;
-            Layout1 = layout1;
-            Layout2 = layout2;
+            ObjectLayout = layout1;
+            TextLayout = layout2;
         }
 
         //public Level(string name, int width, int height)
