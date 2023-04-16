@@ -35,7 +35,6 @@ namespace BigBlue
         public void CreateAllLevels(string allLevelsFile = "../../../Content/Levels/levels-all.bbiy")
         {
             string[] lines = File.ReadAllLines(allLevelsFile);
-            Debug.WriteLine("[{0}]", string.Join(", ", lines));
             int i_line = 0;
             while (i_line < lines.Length)
             {
@@ -63,7 +62,6 @@ namespace BigBlue
         public void CreateLevel(string filename)
         {
             string[] lines = File.ReadAllLines(filename);
-
 
             // Reading the first two lines
             string name = lines[0].Replace("-", " "); ;
