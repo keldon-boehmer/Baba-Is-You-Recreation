@@ -30,46 +30,50 @@ namespace BigBlue.ECS
 
         public override void Update(GameTime gameTime)
         {
-            // Lists for the position components of all entities with "isYou" property
-            // and "isWin" property.
-            List<Position> isYouEntities = new List<Position>();
-            List<Position> isWinEntities = new List<Position>();
-
-            // Loop through all entities tracked by the WinSystem
-            foreach (int entityId in ActiveEntities)
+            // Win condition will never be met unless the player moved
+            if (GameStatus.playerMoved)
             {
-                // Get the property component of the entity
-                Property property = _propertyMapper.Get(entityId);
+                // Lists for the position components of all entities with "isYou" property
+                // and "isWin" property.
+                List<Position> isYouEntities = new List<Position>();
+                List<Position> isWinEntities = new List<Position>();
 
-                // If an object is both you and win, the win condition is met
-                if (property.isYou && property.isWin)
+                // Loop through all entities tracked by the WinSystem
+                foreach (int entityId in ActiveEntities)
                 {
-                    GameStatus.playerWon = true;
-                    return;
-                }
+                    // Get the property component of the entity
+                    Property property = _propertyMapper.Get(entityId);
 
-                //Otherwise, add their positions to the lists if they are "isYou" or "isWin"
-                if (property.isYou)
-                {
-                    isYouEntities.Add(_positionMapper.Get(entityId));
-                }
-                if (property.isWin)
-                {
-                    isWinEntities.Add(_positionMapper.Get(entityId));
-                }
-            }
-
-            // Loop through the "isYou" and "isWin" lists
-            foreach (var youPosition in isYouEntities)
-            {
-                Vector2 youCoordinates = youPosition.Coordinates;
-                foreach (var winPosition in isWinEntities)
-                {
-                    // If an "isYou" entity matches position with an "isWin" entity, the win condition is met
-                    if (youCoordinates == winPosition.Coordinates)
+                    // If an object is both you and win, the win condition is met
+                    if (property.isYou && property.isWin)
                     {
                         GameStatus.playerWon = true;
                         return;
+                    }
+
+                    //Otherwise, add their positions to the lists if they are "isYou" or "isWin"
+                    if (property.isYou)
+                    {
+                        isYouEntities.Add(_positionMapper.Get(entityId));
+                    }
+                    if (property.isWin)
+                    {
+                        isWinEntities.Add(_positionMapper.Get(entityId));
+                    }
+                }
+
+                // Loop through the "isYou" and "isWin" lists
+                foreach (var youPosition in isYouEntities)
+                {
+                    Vector2 youCoordinates = youPosition.Coordinates;
+                    foreach (var winPosition in isWinEntities)
+                    {
+                        // If an "isYou" entity matches position with an "isWin" entity, the win condition is met
+                        if (youCoordinates == winPosition.Coordinates)
+                        {
+                            GameStatus.playerWon = true;
+                            return;
+                        }
                     }
                 }
             }

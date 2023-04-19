@@ -29,9 +29,10 @@ namespace BigBlue
             var world = new WorldBuilder()
                 //.AddSystem(new MovementSystem())
                 //.AddSystem(new RulesSystem())
-                .AddSystem(new AnimationSystem(gridWidth, gridHeight, renderStartX, spriteBatch))
-                //.AddSystem(new KillSystem())
+                .AddSystem(new KillSystem(gridWidth, gridHeight, renderStartX))
                 .AddSystem(new WinSystem())
+                .AddSystem(new AnimationSystem(gridWidth, gridHeight, renderStartX, spriteBatch))
+                .AddSystem(new CloneSystem(gridWidth, gridHeight, renderStartX, spriteBatch))
                 .Build();
 
             // TODO: Create Entities based on the Level's Object Layout

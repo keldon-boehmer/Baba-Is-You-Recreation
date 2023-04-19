@@ -25,14 +25,14 @@ namespace BigBlue
 
         private bool paused = false;
 
-        private bool gameStarted = true;
         private bool musicStarted = false;
         private bool waitedOnMusic = false;
+        private bool waitedOnWorldBuild = false;
         private bool victoryEffectsPlayed = false;
 
-        World currentWorld;
-        World clonedWorld;
-        Stack<World> undoStack = new Stack<World>();
+        private World currentWorld = null;
+        private World clonedWorld = null;
+        private Stack<World> undoStack = new Stack<World>();
 
         private enum PauseState
         {
@@ -77,10 +77,7 @@ namespace BigBlue
             }
             else
             {
-                if (gameStarted)
-                {
-                    processPlayInput(gameTime);
-                }
+                processPlayInput(gameTime);
                 return GameStateEnum.GamePlay;
             }
 
@@ -91,19 +88,27 @@ namespace BigBlue
             {
                 return;
             }
-            if (gameStarted)
+
+            if (!waitedOnWorldBuild)
             {
-                if (!waitedOnMusic)
-                {
-                    waitedOnMusic = true;
-                }
-                else if (!musicStarted)
-                {
-                    MediaPlayer.Play(music);
-                    musicStarted = true;
-                }
-                updateGameplay(gameTime);
+                waitedOnWorldBuild = true;
             }
+            else if (currentWorld == null)
+            {
+                //currentWorld = WorldCreator.CreateWorld(LevelManager.Instance.GetCurrentLevel(), screenWidth, screenHeight, spriteBatch);
+                //clonedWorld = WorldCreator.CreateWorld(LevelManager.Instance.GetCurrentLevel(), screenWidth, screenHeight, spriteBatch);
+            }
+
+            if (!waitedOnMusic)
+            {
+                waitedOnMusic = true;
+            }
+            else if (!musicStarted)
+            {
+                MediaPlayer.Play(music);
+                musicStarted = true;
+            }
+            updateGameplay(gameTime);
         }
 
         public override void render(GameTime gameTime)
@@ -116,10 +121,7 @@ namespace BigBlue
             }
             else
             {
-                if (gameStarted)
-                {
-                    renderPlay(gameTime);
-                }
+                renderPlay(gameTime);
             }
 
             spriteBatch.End();
@@ -143,7 +145,7 @@ namespace BigBlue
 
         private void updateGameplay(GameTime gameTime)
         {
-
+            
             ParticleSystem.update(gameTime);
 
             //currentWorld.Update(gameTime);
@@ -151,25 +153,34 @@ namespace BigBlue
             // Temporary, can be removed once gameplay is implemented
             particleSoundsTest();
 
+            if (WorldClone.undone)
+            {
+                WorldClone.undone = false;
+                clonedWorld = WorldClone.cloneWorld;
+            }
+
             if (GameStatus.playerMoved)
             {
                 undoStack.Push(clonedWorld);
-
-                //TODO : Implement clone current world method.
-                //clonedWorld = clone of current world
+                clonedWorld = WorldClone.cloneWorld;
             }
 
-            particleAndSoundEffects();
+            if (InputManager.Instance.reset)
+            {
+                currentWorld = null;
+                undoStack = new Stack<World>();
+            }
 
             if (InputManager.Instance.undo)
             {
                 if (undoStack.Count > 0)
                 {
                     currentWorld = undoStack.Pop();
-                    // clonedWorld = clone of currentWorld;
+                    WorldClone.undone = true;
                 }
             }
 
+            particleAndSoundEffects();
             InputManager.Instance.ResetInputs();
         }
 
@@ -215,6 +226,7 @@ namespace BigBlue
                     resetDefaults();
                     paused = false;
                     waitForKeyRelease = true;
+                    LevelManager.Instance.ResetCurrentLevelIndex();
                     return GameStateEnum.LevelSelect;
                 }
             }
@@ -255,6 +267,7 @@ namespace BigBlue
             ParticleSystem.ClearParticles();
             musicStarted = false;
             waitedOnMusic = false;
+            waitedOnWorldBuild = false;
             victoryEffectsPlayed = false;
             MediaPlayer.Stop();
             undoStack = new Stack<World>();

@@ -43,6 +43,7 @@ namespace BigBlue
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 {
                     waitForKeyRelease = true;
+                    LevelManager.Instance.ResetCurrentLevelIndex();
                     return GameStateEnum.MainMenu;
                 }
             }

@@ -194,24 +194,5 @@ namespace BigBlue.ECS
             killText.Attach(new Animation(spriteSheet, Color.White));
             killText.Attach(new Property(isPush: true));
         }
-
-        // TODO : Add to these two methods to suit what you need for the rules system. However you want to handle the Text component.
-        //public static void CreateNoun(World world, Vector2 position, Texture2D[] spriteSheet, Color color)
-        //{
-        //    var noun = world.CreateEntity();
-        //    noun.Attach(new Position(position));
-        //    noun.Attach(new Noun(NounType.Noun));
-        //    noun.Attach(new Animation(spriteSheet, color));
-        //    noun.Attach(new Property(isPush: true));
-        //}
-
-        //public static void CreateVerb(World world, Vector2 position, Texture2D[] spriteSheet, Color color)
-        //{
-        //    var verb = world.CreateEntity();
-        //    verb.Attach(new Position(position));
-        //    verb.Attach(new Noun(NounType.Verb));
-        //    verb.Attach(new Animation(spriteSheet, color));
-        //    verb.Attach(new Property(isPush: true));
-        //}
     }
 }
