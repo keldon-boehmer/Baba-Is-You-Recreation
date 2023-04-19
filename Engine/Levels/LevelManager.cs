@@ -31,6 +31,11 @@ namespace BigBlue
             return _levels[_currentLevelIndex];
         }
 
+        public void ResetCurrentLevelIndex()
+        {
+            _currentLevelIndex = 0;
+        }
+
         #region Level Adding
         public void CreateAllLevels(string allLevelsFile = "../../../Content/Levels/levels-all.bbiy")
         {

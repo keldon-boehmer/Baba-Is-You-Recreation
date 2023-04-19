@@ -3,7 +3,6 @@ using Engine.ECS;
 
 namespace BigBlue.ECS
 {
-    // TODO : Implement Clone method that returns a deep copy of this component. For use with undo mechanic.
     internal class Text
     {
         private TextType _type;
