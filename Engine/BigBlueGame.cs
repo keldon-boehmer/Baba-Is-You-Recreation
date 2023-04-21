@@ -70,6 +70,7 @@ namespace BigBlue
             }
 
             currentState.update(gameTime);
+            currentState = states[nextStateEnum];
 
             base.Update(gameTime);
         }
@@ -79,8 +80,6 @@ namespace BigBlue
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             currentState.render(gameTime);
-
-            currentState = states[nextStateEnum];
 
             base.Draw(gameTime);
         }
