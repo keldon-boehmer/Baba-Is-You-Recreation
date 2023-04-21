@@ -12,8 +12,6 @@ namespace BigBlue.ECS
 {
     internal class CloneSystem : EntityUpdateSystem
     {
-        private ComponentMapper<Position> _positionMapper;
-
         private int _gridWidth;
         private int _gridHeight;
         private int _renderStartX;
@@ -30,7 +28,6 @@ namespace BigBlue.ECS
 
         public override void Initialize(IComponentMapperService mapperService)
         {
-            _positionMapper = mapperService.GetMapper<Position>();
         }
 
         public override void Update(GameTime gameTime)
@@ -38,7 +35,7 @@ namespace BigBlue.ECS
             if (GameStatus.playerMoved || WorldClone.undone)
             {
                 var cloneWorld = new WorldBuilder()
-                    //.AddSystem(new MovementSystem())
+                    .AddSystem(new MovementSystem())
                     //.AddSystem(new RulesSystem())
                     .AddSystem(new KillSystem(_gridWidth, _gridHeight, _renderStartX))
                     .AddSystem(new WinSystem())
