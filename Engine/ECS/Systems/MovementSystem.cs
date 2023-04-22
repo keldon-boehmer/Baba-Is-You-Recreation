@@ -100,7 +100,8 @@ namespace BigBlue.ECS
 
         private void addNewMovedEntities(int youId, Vector2 moveDirection)
         {
-            HashSet<int> entitiesAffected = new HashSet<int>(youId);
+            HashSet<int> entitiesAffected = new HashSet<int>();
+            entitiesAffected.Add(youId);
             bool moveLineOfEntities = true;
             Vector2 currPosition = _positionMapper.Get(youId).Coordinates;
             bool pushEntityFound = true;

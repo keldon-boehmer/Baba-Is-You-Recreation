@@ -12,5 +12,6 @@
         Lava,
         Hedge,
         Verb,
+        Is,
     }
 }

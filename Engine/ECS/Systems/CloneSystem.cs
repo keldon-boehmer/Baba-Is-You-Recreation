@@ -36,7 +36,7 @@ namespace BigBlue.ECS
             {
                 var cloneWorld = new WorldBuilder()
                     .AddSystem(new MovementSystem())
-                    //.AddSystem(new RulesSystem())
+                    .AddSystem(new RulesSystem())
                     .AddSystem(new KillSystem(_gridWidth, _gridHeight, _renderStartX))
                     .AddSystem(new WinSystem())
                     .AddSystem(new AnimationSystem(_gridWidth, _gridHeight, _renderStartX, _spriteBatch))

@@ -29,7 +29,7 @@ namespace BigBlue
             // TODO: add ALL systems to WorldBuilder, build world
             var world = new WorldBuilder()
                 .AddSystem(new MovementSystem())
-                //.AddSystem(new RulesSystem())
+                .AddSystem(new RulesSystem())
                 .AddSystem(new KillSystem(gridWidth, gridHeight, renderStartX))
                 .AddSystem(new WinSystem())
                 .AddSystem(new AnimationSystem(gridWidth, gridHeight, renderStartX, spriteBatch))
@@ -53,7 +53,7 @@ namespace BigBlue
                 {
                     if (layout[i, j] == ' ') continue;
 
-                    Vector2 position = new Vector2(i, j);
+                    Vector2 position = new Vector2(j, i);
                     Texture2D[] spriteSheet = spriteSheets[layout[i, j]];
                     createAppropriateEntity(layout[i, j], world, position, spriteSheet);
                 }

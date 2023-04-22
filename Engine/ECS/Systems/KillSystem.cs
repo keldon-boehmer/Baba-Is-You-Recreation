@@ -13,13 +13,14 @@ namespace BigBlue.ECS
     {
         private ComponentMapper<Position> _positionMapper;
         private ComponentMapper<Property> _propertyMapper;
+        private ComponentMapper<Animation> _animationMapper;
 
         private Rectangle _particleRectangle;
         private int _gridWidth;
         private int _gridHeight;
         private int _renderStartX;
 
-        public KillSystem(int gridWidth, int gridHeight, int renderStartX) : base(Aspect.All(typeof(Position), typeof(Property)))
+        public KillSystem(int gridWidth, int gridHeight, int renderStartX) : base(Aspect.All(typeof(Position), typeof(Property), typeof(Animation)))
         {
             _gridWidth = gridWidth;
             _gridHeight = gridHeight;
@@ -31,6 +32,7 @@ namespace BigBlue.ECS
         {
             _positionMapper = mapperService.GetMapper<Position>();
             _propertyMapper = mapperService.GetMapper<Property>();
+            _animationMapper = mapperService.GetMapper<Animation>();
         }
 
         public override void Update(GameTime gameTime)
@@ -57,18 +59,13 @@ namespace BigBlue.ECS
                         if (entityId != killEntityId)
                         {
                             Position entityPosition = _positionMapper.Get(entityId);
-                            bool entityDestroyed = false;
                             if (entityPosition.Coordinates == killPosition.Coordinates)
                             {
                                 DestroyEntity(entityId);
-                                entityDestroyed = true;
-                            }
-                            if (entityDestroyed)
-                            {
                                 _particleRectangle.X = _renderStartX + ((int)entityPosition.Coordinates.X * _gridWidth);
                                 _particleRectangle.Y = (int)killPosition.Coordinates.Y * _gridHeight;
-                                ParticleSystem.OnDeath(_particleRectangle, 50, 2f, new TimeSpan(0, 0, 0, 0, 1500), Color.Yellow);
-                                DestroyEntity(killEntityId);
+                                Color particleColor = _animationMapper.Get(entityId).Color;
+                                ParticleSystem.OnDeath(_particleRectangle, 300, 2f, new TimeSpan(0, 0, 0, 0, 500), particleColor);
                             }
                         }
                     }
