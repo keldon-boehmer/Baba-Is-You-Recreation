@@ -67,6 +67,7 @@ namespace BigBlue
             if (nextStateEnum == GameStateEnum.Exit)
             {
                 Exit();
+                return;
             }
 
             currentState.update(gameTime);

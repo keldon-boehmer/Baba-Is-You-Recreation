@@ -67,6 +67,14 @@ namespace BigBlue
         private void processRebindInput()
         {
             currentKeyState = Keyboard.GetState();
+
+            if (currentKeyState.IsKeyDown(Keys.Escape))
+            {
+                waitingForBind = false;
+                prevKeyState = currentKeyState;
+                return;
+            }
+
             Keys[] pressedKeys = currentKeyState.GetPressedKeys();
 
             if (pressedKeys.Length > 0)
