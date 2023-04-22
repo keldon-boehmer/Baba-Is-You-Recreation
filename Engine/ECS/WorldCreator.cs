@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Entities;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 
 namespace BigBlue
 {
@@ -35,107 +36,103 @@ namespace BigBlue
                 .AddSystem(new CloneSystem(gridWidth, gridHeight, renderStartX, spriteBatch))
                 .Build();
 
-            // TODO: Create Entities based on the Level's Object Layout
-            for (int i = 0; i < level.ObjectLayout.GetLength(0); i++)
-            {
-                for (int j = 0; j < level.ObjectLayout.GetLength(1); j++)
-                {
-                    if (level.ObjectLayout[i, j] == ' ') continue;
+            // Create Entities based on the Level's Object Layout
+            createLayout(level.ObjectLayout, world);
 
-                    Vector2 position = new Vector2(i, j);
-                    Texture2D[] spriteSheet = spriteSheets[level.ObjectLayout[i, j]];
-                    switch (level.ObjectLayout[i, j])
-                    {
-                        case 'w':
-                            EntityCreator.CreateWall(world, position, spriteSheet);
-                            break;
-                        case 'r':
-                            EntityCreator.CreateRock(world, position, spriteSheet);
-                            break;
-                        case 'f':
-                            EntityCreator.CreateFlag(world, position, spriteSheet);
-                            break;
-                        case 'b':
-                            EntityCreator.CreateBigBlue(world, position, spriteSheet);
-                            break;
-                        case 'l':
-                            EntityCreator.CreateFloor(world, position, spriteSheet);
-                            break;
-                        case 'g':
-                            EntityCreator.CreateGrass(world, position, spriteSheet);
-                            break;
-                        case 'a':
-                            EntityCreator.CreateWater(world, position, spriteSheet);
-                            break;
-                        case 'v':
-                            EntityCreator.CreateLava(world, position, spriteSheet);
-                            break;
-                        case 'h':
-                            EntityCreator.CreateHedge(world, position, spriteSheet);
-                            break;
-                        default:
-                            throw new Exception();
-                    }
-                }
-            }
-
-            // TODO: Create Entities based on the Level's Text Layout
-            for (int i = 0; i < level.TextLayout.GetLength(0); i++)
-            {
-                for (int j = 0; j < level.TextLayout.GetLength(1); j++)
-                {
-                    if (level.ObjectLayout[i, j] == ' ') continue;
-
-                    Vector2 position = new Vector2(i, j);
-                    Texture2D[] spriteSheet = spriteSheets[level.ObjectLayout[i, j]];
-                    switch (level.TextLayout[i, j])
-                    {
-                        case 'W':
-                            EntityCreator.CreateWallText(world, position, spriteSheet);
-                            break;
-                        case 'R':
-                            EntityCreator.CreateRockText(world, position, spriteSheet);
-                            break;
-                        case 'F':
-                            EntityCreator.CreateFlagText(world, position, spriteSheet);
-                            break;
-                        case 'B':
-                            EntityCreator.CreateBigBlueText(world, position, spriteSheet);
-                            break;
-                        case 'I':
-                            EntityCreator.CreateIsText(world, position, spriteSheet);
-                            break;
-                        case 'S':
-                            EntityCreator.CreateStopText(world, position, spriteSheet);
-                            break;
-                        case 'P':
-                            EntityCreator.CreatePushText(world, position, spriteSheet);
-                            break;
-                        case 'V':
-                            EntityCreator.CreateLavaText(world, position, spriteSheet);
-                            break;
-                        case 'A':
-                            EntityCreator.CreateWaterText(world, position, spriteSheet);
-                            break;
-                        case 'Y':
-                            EntityCreator.CreateYouText(world, position, spriteSheet);
-                            break;
-                        case 'X':
-                            EntityCreator.CreateWinText(world, position, spriteSheet);
-                            break;
-                        case 'N':
-                            EntityCreator.CreateSinkText(world, position, spriteSheet);
-                            break;
-                        case 'K':
-                            EntityCreator.CreateKillText(world, position, spriteSheet);
-                            break;
-                        default:
-                            throw new Exception();
-                    }
-                }
-            }
+            //Create Entities based on the Level's Text Layout
+            createLayout(level.TextLayout, world);
 
             return world;
+        }
+
+        private static void createLayout(char[,] layout, World world)
+        {
+            for (int i = 0; i < layout.GetLength(0); i++)
+            {
+                for (int j = 0; j < layout.GetLength(1); j++)
+                {
+                    if (layout[i, j] == ' ') continue;
+
+                    Vector2 position = new Vector2(i, j);
+                    Texture2D[] spriteSheet = spriteSheets[layout[i, j]];
+                    createAppropriateEntity(layout[i, j], world, position, spriteSheet);
+                }
+            }
+        }
+
+        private static void createAppropriateEntity(char entityType, World world, Vector2 position, Texture2D[] spriteSheet)
+        {
+            switch (entityType)
+            {
+                case 'w':
+                    EntityCreator.CreateWall(world, position, spriteSheet);
+                    break;
+                case 'r':
+                    EntityCreator.CreateRock(world, position, spriteSheet);
+                    break;
+                case 'f':
+                    EntityCreator.CreateFlag(world, position, spriteSheet);
+                    break;
+                case 'b':
+                    EntityCreator.CreateBigBlue(world, position, spriteSheet);
+                    break;
+                case 'l':
+                    EntityCreator.CreateFloor(world, position, spriteSheet);
+                    break;
+                case 'g':
+                    EntityCreator.CreateGrass(world, position, spriteSheet);
+                    break;
+                case 'a':
+                    EntityCreator.CreateWater(world, position, spriteSheet);
+                    break;
+                case 'v':
+                    EntityCreator.CreateLava(world, position, spriteSheet);
+                    break;
+                case 'h':
+                    EntityCreator.CreateHedge(world, position, spriteSheet);
+                    break;
+                case 'W':
+                    EntityCreator.CreateWallText(world, position, spriteSheet);
+                    break;
+                case 'R':
+                    EntityCreator.CreateRockText(world, position, spriteSheet);
+                    break;
+                case 'F':
+                    EntityCreator.CreateFlagText(world, position, spriteSheet);
+                    break;
+                case 'B':
+                    EntityCreator.CreateBigBlueText(world, position, spriteSheet);
+                    break;
+                case 'I':
+                    EntityCreator.CreateIsText(world, position, spriteSheet);
+                    break;
+                case 'S':
+                    EntityCreator.CreateStopText(world, position, spriteSheet);
+                    break;
+                case 'P':
+                    EntityCreator.CreatePushText(world, position, spriteSheet);
+                    break;
+                case 'V':
+                    EntityCreator.CreateLavaText(world, position, spriteSheet);
+                    break;
+                case 'A':
+                    EntityCreator.CreateWaterText(world, position, spriteSheet);
+                    break;
+                case 'Y':
+                    EntityCreator.CreateYouText(world, position, spriteSheet);
+                    break;
+                case 'X':
+                    EntityCreator.CreateWinText(world, position, spriteSheet);
+                    break;
+                case 'N':
+                    EntityCreator.CreateSinkText(world, position, spriteSheet);
+                    break;
+                case 'K':
+                    EntityCreator.CreateKillText(world, position, spriteSheet);
+                    break;
+                default:
+                    throw new Exception();
+            }
         }
 
         #region Sprite Sheet Loading
