@@ -19,6 +19,7 @@ namespace BigBlue
         private SoundEffect onVictoryEffect;
         private SoundEffect onIsWinConditionChangeEffect;
 
+        private const string VICTORY_MESSAGE = "You win!";
 
         private int screenWidth;
         private int screenHeight;
@@ -29,9 +30,10 @@ namespace BigBlue
         private bool waitedOnMusic = false;
         private bool waitedOnWorldBuild = false;
         private bool victoryEffectsPlayed = false;
+        private bool worldNeedsCreation = true;
 
-        private World currentWorld = null;
-        private World clonedWorld = null;
+        private World currentWorld = new WorldBuilder().Build();
+        private World clonedWorld = new WorldBuilder().Build();
         private Stack<World> undoStack = new Stack<World>();
 
         private enum PauseState
@@ -89,16 +91,6 @@ namespace BigBlue
                 return;
             }
 
-            if (!waitedOnWorldBuild)
-            {
-                waitedOnWorldBuild = true;
-            }
-            else if (currentWorld == null)
-            {
-                //currentWorld = WorldCreator.CreateWorld(LevelManager.Instance.GetCurrentLevel(), screenWidth, screenHeight, spriteBatch);
-                //clonedWorld = WorldCreator.CreateWorld(LevelManager.Instance.GetCurrentLevel(), screenWidth, screenHeight, spriteBatch);
-            }
-
             if (!waitedOnMusic)
             {
                 waitedOnMusic = true;
@@ -145,13 +137,25 @@ namespace BigBlue
 
         private void updateGameplay(GameTime gameTime)
         {
-            
             ParticleSystem.update(gameTime);
+            
+            if (InputManager.Instance.reset)
+            {
+                resetDefaults();
+            }
 
-            //currentWorld.Update(gameTime);
+            if (!waitedOnWorldBuild)
+            {
+                waitedOnWorldBuild = true;
+            }
+            else if (worldNeedsCreation)
+            {
+                currentWorld = WorldCreator.CreateWorld(LevelManager.Instance.GetCurrentLevel(), screenWidth, screenHeight, spriteBatch);
+                clonedWorld = WorldCreator.CreateWorld(LevelManager.Instance.GetCurrentLevel(), screenWidth, screenHeight, spriteBatch);
+                worldNeedsCreation = false;
+            }
 
-            // Temporary, can be removed once gameplay is implemented
-            particleSoundsTest();
+            currentWorld.Update(gameTime);
 
             if (WorldClone.undone)
             {
@@ -163,12 +167,6 @@ namespace BigBlue
             {
                 undoStack.Push(clonedWorld);
                 clonedWorld = WorldClone.cloneWorld;
-            }
-
-            if (InputManager.Instance.reset)
-            {
-                currentWorld = null;
-                undoStack = new Stack<World>();
             }
 
             if (InputManager.Instance.undo)
@@ -186,8 +184,19 @@ namespace BigBlue
 
         private void renderPlay(GameTime gameTime)
         {
+            currentWorld.Draw(gameTime);
             ParticleSystem.draw(spriteBatch);
-            //currentWorld.Draw(gameTime);
+            if (victoryEffectsPlayed)
+            {
+                drawVictoryMessage();
+            }
+        }
+
+        private void drawVictoryMessage()
+        {
+            Vector2 stringSize = fontSelect.MeasureString(VICTORY_MESSAGE);
+            spriteBatch.DrawString(fontSelect, VICTORY_MESSAGE,
+                new Vector2(graphics.PreferredBackBufferWidth / 2 - stringSize.X / 2, graphics.PreferredBackBufferHeight / 2 - stringSize.Y), Color.Yellow);
         }
 
         #endregion
@@ -269,28 +278,10 @@ namespace BigBlue
             waitedOnMusic = false;
             waitedOnWorldBuild = false;
             victoryEffectsPlayed = false;
+            worldNeedsCreation = true;
             MediaPlayer.Stop();
             undoStack = new Stack<World>();
             GameStatus.resetDefaults();
-        }
-
-        private void particleSoundsTest()
-        {
-            if (InputManager.Instance.moveDown)
-            {
-                moveEffect.Play();
-                ParticleSystem.OnDeath(new Rectangle(100, 100, 40, 40), 50, 2f, new TimeSpan(0, 0, 0, 0, 3000), Color.Yellow);
-            }
-            if (InputManager.Instance.moveLeft)
-            {
-                onIsWinConditionChangeEffect.Play();
-                ParticleSystem.IsWinOrIsYou(new Rectangle(100, 100, 40, 40), 10, 2f, new TimeSpan(0, 0, 0, 0, 3000), Color.Yellow);
-            }
-            if (InputManager.Instance.moveRight)
-            {
-                onVictoryEffect.Play();
-                ParticleSystem.PlayerIsWin(1, 500, 5f, new TimeSpan(0, 0, 0, 0, 3000), new Vector2(screenWidth, screenHeight));
-            }
         }
 
         private void particleAndSoundEffects()
@@ -308,7 +299,7 @@ namespace BigBlue
             if (GameStatus.playerWon && !victoryEffectsPlayed)
             {
                 onVictoryEffect.Play();
-                ParticleSystem.PlayerIsWin(3, 500, 5f, new TimeSpan(0, 0, 0, 0, 3000), new Vector2(screenWidth, screenHeight));
+                ParticleSystem.PlayerIsWin(5, 1000, 5f, new TimeSpan(0, 0, 0, 0, 3000), new Vector2(screenWidth, screenHeight));
                 victoryEffectsPlayed = true;
             }
         }

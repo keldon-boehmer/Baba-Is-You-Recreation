@@ -13,7 +13,7 @@ namespace BigBlue.ECS
             wall.Attach(new Position(position));
             wall.Attach(new Object(ObjectType.Wall));
             wall.Attach(new Animation(spriteSheet, Color.Gray));
-            wall.Attach(new Property());
+            wall.Attach(new Property(isStop: true));
         }
         public static void CreateWallText(World world, Vector2 position, Texture2D[] spriteSheet)
         {
@@ -47,7 +47,7 @@ namespace BigBlue.ECS
             flag.Attach(new Position(position));
             flag.Attach(new Object(ObjectType.Flag));
             flag.Attach(new Animation(spriteSheet, Color.Yellow));
-            flag.Attach(new Property());
+            flag.Attach(new Property(isWin: true));
         }
         public static void CreateFlagText(World world, Vector2 position, Texture2D[] spriteSheet)
         {
@@ -64,7 +64,7 @@ namespace BigBlue.ECS
             bigBlue.Attach(new Position(position));
             bigBlue.Attach(new Object(ObjectType.BigBlue));
             bigBlue.Attach(new Animation(spriteSheet, Color.White));
-            bigBlue.Attach(new Property());
+            bigBlue.Attach(new Property(isYou: true));
         }
         public static void CreateBigBlueText(World world, Vector2 position, Texture2D[] spriteSheet)
         {
@@ -95,7 +95,7 @@ namespace BigBlue.ECS
             water.Attach(new Position(position));
             water.Attach(new Object(ObjectType.Water));
             water.Attach(new Animation(spriteSheet, Color.Blue));
-            water.Attach(new Property());
+            water.Attach(new Property(isKill: true));
         }
         public static void CreateWaterText(World world, Vector2 position, Texture2D[] spriteSheet)
         {
@@ -129,12 +129,14 @@ namespace BigBlue.ECS
             hedge.Attach(new Position(position));
             hedge.Attach(new Object(ObjectType.Hedge));
             hedge.Attach(new Animation(spriteSheet, Color.Green));
+            hedge.Attach(new Property(isStop: true));
         }
 
         public static void CreateIsText(World world, Vector2 position, Texture2D[] spriteSheet)
         {
             var isText = world.CreateEntity();
             isText.Attach(new Position(position));
+            isText.Attach(new Object(ObjectType.Is));
             isText.Attach(new Text(TextType.Is));
             isText.Attach(new Animation(spriteSheet, Color.White));
             isText.Attach(new Property(isPush: true));
