@@ -75,7 +75,7 @@ namespace BigBlue
 
         public Property Clone()
         {
-            return new Property(isYou, isPush, isStop, isKill, isWin);
+            return new Property(isYou, isPush, isStop, isKill, isWin, isSink);
         }
     }
 }

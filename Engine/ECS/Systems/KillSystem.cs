@@ -75,7 +75,7 @@ namespace BigBlue.ECS
                         {
                             DestroyEntity(youId);
                             _particleRectangle.X = _renderStartX + ((int)entityPosition.Coordinates.X * _gridWidth);
-                            _particleRectangle.Y = (int)killPosition.Coordinates.Y * _gridHeight;
+                            _particleRectangle.Y = (int)entityPosition.Coordinates.Y * _gridHeight;
                             Color particleColor = _animationMapper.Get(youId).Color;
                             ParticleSystem.OnDeath(_particleRectangle, 300, 2f, new TimeSpan(0, 0, 0, 0, 500), particleColor);
                         }
