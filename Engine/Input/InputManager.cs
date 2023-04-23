@@ -137,6 +137,11 @@ namespace BigBlue
         {
             if (File.Exists(KeyBindingsFileName))
             {
+                // Fixing the bug where the last line of the XML file keys messed up.
+                string[] lines = File.ReadAllLines(KeyBindingsFileName);
+                lines[lines.Length - 1] = "</ArrayOfKeys>";
+                File.WriteAllLines(KeyBindingsFileName, lines);
+
                 XmlSerializer serializer = new XmlSerializer(typeof(List<Keys>));
                 using (Stream stream = File.OpenRead(KeyBindingsFileName))
                 {
