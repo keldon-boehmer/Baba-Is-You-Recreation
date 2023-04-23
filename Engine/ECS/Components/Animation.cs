@@ -14,7 +14,7 @@ namespace BigBlue.ECS
         public Animation(Texture2D[] frames, Color color)
         {
             Frames = frames;
-            FrameTime = 1000 / frames.Length;
+            FrameTime = 300;
             CurrentFrame = 0;
             ElapsedTime = 0;
             Color = color;

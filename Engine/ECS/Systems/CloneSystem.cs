@@ -36,7 +36,7 @@ namespace BigBlue.ECS
             {
                 var cloneWorld = new WorldBuilder()
                     .AddSystem(new MovementSystem())
-                    .AddSystem(new RulesSystem())
+                    .AddSystem(new RulesSystem(_gridWidth, _gridHeight, _renderStartX))
                     .AddSystem(new KillSystem(_gridWidth, _gridHeight, _renderStartX))
                     .AddSystem(new WinSystem())
                     .AddSystem(new AnimationSystem(_gridWidth, _gridHeight, _renderStartX, _spriteBatch))
@@ -73,6 +73,12 @@ namespace BigBlue.ECS
                     {
                         Text textClone = originalEntity.Get<Text>().Clone();
                         cloneEntity.Attach(textClone);
+                    }
+
+                    if (GetEntity(entityId).Has<Action>())
+                    {
+                        Action actionClone = originalEntity.Get<Action>().Clone();
+                        cloneEntity.Attach(actionClone);
                     }
                 }
 

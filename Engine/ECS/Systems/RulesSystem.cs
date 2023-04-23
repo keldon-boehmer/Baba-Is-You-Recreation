@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Engine.ECS;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Entities;
 using MonoGame.Extended.Entities.Systems;
 using System;
@@ -9,58 +11,45 @@ namespace BigBlue.ECS
 {
     internal class RulesSystem : EntityUpdateSystem
     {
-        private ComponentMapper<Position> _positionMapper;
-        private ComponentMapper<Property> _propertyMapper;
-        private ComponentMapper<Object> _objectMapper;
-        private ComponentMapper<Action> _actionMapper;
-        private ComponentMapper<Text> _textMapper;
+        private Rectangle _particleRectangle;
+        private int _gridWidth;
+        private int _gridHeight;
+        private int _renderStartX;
 
-        public RulesSystem() 
-            : base(Aspect.All(typeof(Position), typeof(Property), typeof(Object)))
+        public RulesSystem(int gridWidth, int gridHeight, int renderStartX) 
+            : base(Aspect.All(typeof(Position), typeof(Property)))
         {
+            _gridWidth = gridWidth;
+            _gridHeight = gridHeight;
+            _renderStartX = renderStartX;
+            _particleRectangle = new Rectangle(renderStartX, 0, gridWidth, gridHeight);
         }
 
         public override void Initialize(IComponentMapperService mapperService)
         {
-            _positionMapper = mapperService.GetMapper<Position>();
-            _propertyMapper = mapperService.GetMapper<Property>();
-            _objectMapper = mapperService.GetMapper<Object>();
-            _actionMapper = mapperService.GetMapper<Action>();
-            _textMapper = mapperService.GetMapper<Text>();
         }
 
-
-        private Dictionary<int, Position> _prevTextPositions = new Dictionary<int, Position>();  // (key, value) = TextEntity's (id, Position)
         private List<Entity> _nouns = new List<Entity>();
         private List<Entity> _verbs = new List<Entity>();
-        private List<Entity> _IsEntities = new List<Entity>();  // 100% grammatically correct plural of "is"...
+        private List<Entity> _IsEntities = new List<Entity>();
+        private List<Entity> _objectEntities = new List<Entity>(); // Entities that are the actual objects of the game (rocks, flags, walls, etc) Does not include text entities
+
+        private HashSet<ObjectType> _oldYouTypes = new HashSet<ObjectType>();
+        private HashSet<ObjectType> _oldWinTypes = new HashSet<ObjectType>();
+        private HashSet<ObjectType> _newYouTypes = new HashSet<ObjectType>();
+        private HashSet<ObjectType> _newWinTypes = new HashSet<ObjectType>();
+
+        private bool _initialRulesCreated = false;
 
         public override void Update(GameTime gameTime)
         {
-            if (!GameStatus.playerMoved) return;
-
-            // Updating Text Positions
-            Dictionary<int, Position> textPositions = new Dictionary<int, Position>();
-            bool diffFound = false;
-            foreach (int entityID in ActiveEntities)
+            if (!GameStatus.playerMoved && _initialRulesCreated)
             {
-                Entity textEntity = GetEntity(entityID);
-                if (!textEntity.Has<Text>()) continue;
-                textPositions.Add(entityID, textEntity.Get<Position>().Clone());
-                if (!_prevTextPositions.ContainsKey(entityID)) { continue; }
-                if (!textPositions[entityID].Equals(_prevTextPositions[entityID]))
-                    diffFound = true;
-                if (textEntity.Get<Object>().Equals(ObjectType.Is))
-                    _IsEntities.Add(textEntity);
-                else if (textEntity.Has<Object>())
-                    _nouns.Add(textEntity);
-                else if (textEntity.Has<Action>())
-                    _verbs.Add(textEntity);
-            }
-            _prevTextPositions = textPositions;
-            // if the position of text entities did not change, rules could not have changed
-            if (!diffFound)
                 return;
+            }
+
+            populateEntityLists();
+
             // ===========================
             // Now we start handling rules
             // ===========================
@@ -70,60 +59,55 @@ namespace BigBlue.ECS
             ClearProperties();
 
             // Step 2: Find Rules
-            foreach (Position TextPosition in textPositions.Values)
-            {
+            findRules(new Vector2(1, 0));
+            findRules(new Vector2(0, 1));
 
-            }
-            foreach (Entity Is in _IsEntities)
-            {
-                
-            }
-
-            // Step 3: Apply Rules
-
-
-            // Cleanup, Cleanup, everybody everywhere
+            // Cleanup
             _nouns.Clear();
             _verbs.Clear();
             _IsEntities.Clear();
+            _objectEntities.Clear();
 
-            
+            _oldYouTypes = new HashSet<ObjectType>(_newYouTypes);
+            _newYouTypes.Clear();
 
-            /*
-            // do all the update logic within this conditional, then rules only get parsed when the player moves instead of every update
+            _oldWinTypes = new HashSet<ObjectType>(_newWinTypes);
+            _newWinTypes.Clear();
 
-            // To be efficient, maybe do an initial loop through the active entities, and keep lists
-            //  of entity ids such that one list contains only the entityIds of "Is" text blocks. That way, when you need to find
-            //  if an "is" block exists next to an object text block that you've found, you only have to loop through that list
-            //  instead of every single entity.
-            // You could also keep all the object text blocks in a list, so that you loop through those to find the rules.
-            // It would probably also be good to keep a List of the entity ids of the Text blocks that are not "is" blocks,
-            //  which would be useful when parsing for the third block in a rule. Since rules like "Water is You" and "Water is Baba"
-            //  could both exist, both object and property text blocks would be necessary for the third block entity list.
-            // It may also be good to keep a list of the ids of the actual object entities, so that you can apply rules to them by
-            //  looping through that list, and that way you know you're only changing properties of actual objects, and not any text blocks.
-            // I did a similar concept in some of my other systems. Like in the movement system, i did an initial run through
-            //  of all the active entities observed by the system, and sorted them into lists based on if they were
-            //  "isYou", "isStop", or "isPush", and thus ignored any entities tracked by this system that do not have those
-            //  requirements and thus would not be relevant.
-            //
-            // In this initial run through of active entities, it may also be good to reset all of the properties to false
-            //  (Except for text blocks, which should always be "isPush" and hedges should (preferrably) always be "isStop")
-            //
-            // As for the actual entities, you probably only want to require that the entities tracked by this system have
-            // "position", "property", and "object" Components. Since the rules system will need to update non-text entities,
-            // it shouldn't mandate that entities have a text component. 
-            //
-            // So that the last note is true, i added a new ObjectType, "Is". Because the "Is" text entity creator did not have an
-            //  "object" component.
-            //
-            // Last note (i think) : something to consider is that there is supposed to be a particle/sound effect when a new
-            //  "is Win" rule is formed. If you can make sure that the system knows when a new rule is formed, and specify
-            //  exactly where in the code the system discovers that, i should be able to write the code that will generate
-            //  the particle effect and play the sound.
-            //
-            // Here is the link to the monogame extended github: https://github.com/craftworkgames/MonoGame.Extended/tree/develop/src/cs/MonoGame.Extended.Entities
-            */
+            _initialRulesCreated = true;
+        }
+
+        private void populateEntityLists()
+        {
+            foreach (int entityID in ActiveEntities)
+            {
+                Entity entity = GetEntity(entityID);
+
+                if (!entity.Has<Text>())
+                {
+                    if (entity.Has<Object>())
+                    {
+                        _objectEntities.Add(entity);
+                    }
+                    continue;
+                }
+
+                if (entity.Has<Object>())
+                {
+                    if (entity.Get<Object>().Equals(ObjectType.Is))
+                    {
+                        _IsEntities.Add(entity);
+                    }
+                    else
+                    {
+                        _nouns.Add(entity);
+                    }
+                }
+                else if (entity.Has<Action>())
+                {
+                    _verbs.Add(entity);
+                }
+            }
         }
 
         private void ClearProperties()
@@ -133,9 +117,62 @@ namespace BigBlue.ECS
                 // Clear all Properties from all entities
                 Entity entity = GetEntity(entityID);
                 entity.Get<Property>().Clear();
-                // Add isPush to all Text Entities or Hedge Objects
-                if (entity.Has<Text>() || entity.Get<Object>().Equals(ObjectType.Hedge))
+                // Add isPush to all Text Entities
+                if (entity.Has<Text>())
+                {
                     entity.Get<Property>().isPush = true;
+                }
+                // and isStop to Hedges
+                else
+                {
+                    if (entity.Has<Object>())
+                    {
+                        if (entity.Get<Object>().Equals(ObjectType.Hedge))
+                        {
+                            entity.Get<Property>().isStop = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void findRules(Vector2 direction)
+        {
+            foreach (Entity noun in _nouns)
+            {
+                Vector2 nounPosition = noun.Get<Position>().Coordinates;
+                Vector2 adjacentPosition = new Vector2(nounPosition.X + direction.X, nounPosition.Y + direction.Y);
+                Vector2 adjacentPosition2 = new Vector2(adjacentPosition.X + direction.X, adjacentPosition.Y + direction.Y);
+                foreach (Entity isTextEntity in _IsEntities)
+                {
+                    Vector2 isPosition = isTextEntity.Get<Position>().Coordinates;
+
+                    // Check for adjacency in the given direction
+                    if (adjacentPosition.Equals(isPosition))
+                    {
+                        foreach (Entity verb in _verbs)
+                        {
+                            Vector2 verbPosition = verb.Get<Position>().Coordinates;
+                            // Check for adjacency in the given direction
+                            if (adjacentPosition2 == verbPosition)
+                            {
+                                Entity[] rule = new Entity[3] { noun, isTextEntity, verb };
+                                applyPropertyRule(rule);
+                            }
+                        }
+
+                        foreach (Entity noun2 in _nouns)
+                        {
+                            Vector2 noun2Position = noun2.Get<Position>().Coordinates;
+                            // Check for adjacency in the given direction
+                            if (isPosition + direction == noun2Position)
+                            {
+                                Entity[] rule = new Entity[3] { noun, isTextEntity, noun2 };
+                                applyConversionRule(rule);
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -145,23 +182,107 @@ namespace BigBlue.ECS
         //    where Nouns are entities with a Text and Object component.
         //    and   Verbs are entities with a Text and Action component.
         // Any and all other orientations of entities will not form a valid rule.
-        // case (Format 1): all Objects with the Noun's ObjectType gain the Property component associated with the Verb's Action component.
+        // case (Format 1): all Objects with the Noun's ObjectType apply the Property associated with the Verb's Action component.
         // case (Format 2): all of Noun1's components are replaced with Noun2's components, except Position
-        private void ApplyRule(Entity[] rule)
+
+        // This method applies rules of the format [Noun] [Is] [Verb]
+        private void applyPropertyRule(Entity[] rule)
         {
-            // Format 1: [Noun] [Is] [Verb]
-            if (_nouns.Contains(rule[0]) && _verbs.Contains(rule[2]))
+            ActionType propertyToApply = rule[2].Get<Action>().Type;
+            
+            bool createParticleEffects = determineNewYouOrWin(propertyToApply, rule);
+            
+            // Loop to apply property to entities of Noun's type
+            foreach (Entity objectEntity in _objectEntities)
             {
-                // TODO: find all Objects with the Noun's ObjectType and attach whatever Property component is associated with the Verb's Action component.
+                Object entityType = objectEntity.Get<Object>();
+                if (entityType.Equals(rule[0].Get<Object>().Type))
+                {
+                    objectEntity.Get<Property>().Apply(propertyToApply);
+                    if (createParticleEffects && _initialRulesCreated)
+                    {
+                        Vector2 coordinates = objectEntity.Get<Position>().Coordinates;
+                        _particleRectangle.X = _renderStartX + ((int)coordinates.X * _gridWidth);
+                        _particleRectangle.Y = (int)coordinates.Y * _gridHeight;
+                        ParticleSystem.IsWinOrIsYou(_particleRectangle, 13, 2f, new TimeSpan(0, 0, 0, 0, 1000), Color.Yellow);
+                    }
+                }
             }
-            // Format 2: [Noun1] [Is] [Noun2]
-            else if (_nouns.Contains(rule[0]) && _nouns.Contains(rule[2]))
+        }
+
+        private bool determineNewYouOrWin(ActionType propertyToApply, Entity[] rule)
+        {
+            bool newFound = false;
+
+            // Find potential new isWin or isYou rules
+            if (propertyToApply == ActionType.Win)
             {
-                // TODO: Replace all of Noun1's components with Noun2's components (except Position)
+                ObjectType winType = rule[0].Get<Object>().Type;
+                _newWinTypes.Add(winType);
+
+                // Test if a new win rule is formed
+                if (!_oldWinTypes.Contains(winType))
+                {
+                    newFound = true;
+                    GameStatus.winConditionChanged = true;
+                }
             }
-            else
+            else if (propertyToApply == ActionType.You)
             {
-                Debug.WriteLine("Found an invalid rule");
+                ObjectType youType = rule[0].Get<Object>().Type;
+                _newYouTypes.Add(youType);
+                // Test if a new win rule is formed
+                if (!_oldYouTypes.Contains(youType))
+                {
+                    newFound = true;
+                }
+            }
+
+            return newFound;
+        }
+
+        // This method applies rules of the format [Noun1] [Is] [Noun2]
+        private void applyConversionRule(Entity[] rule)
+        {
+            // Will be used to clone components to convert entities of Noun1's type to Noun2's type
+            Entity objectEqualsNoun2 = null;
+
+            // Initial loop to find an entity of the same object type as Noun 2 refers to
+            foreach (Entity objectEntity in _objectEntities)
+            {
+                Object entityType = objectEntity.Get<Object>();
+
+                if (entityType.Equals(rule[2].Get<Object>().Type))
+                {
+                    objectEqualsNoun2 = objectEntity;
+                    break;
+                }
+            }
+
+            // If no objects of noun2 type exist, then the rule cannot be applied
+            if (objectEqualsNoun2 is null)
+            {
+                return;
+            }
+
+            // Second loop to convert all entities of Noun1's type to Noun2's type/sprite/property
+            foreach (Entity objectEntity in _objectEntities)
+            {
+                Object entityType = objectEntity.Get<Object>();
+                if (entityType.Equals(rule[0].Get<Object>().Type))
+                {
+                    // Attach cloned Object
+                    objectEntity.Detach<Object>();
+                    objectEntity.Attach(objectEqualsNoun2.Get<Object>().Clone());
+
+                    // Attach cloned Animation
+                    objectEntity.Detach<Animation>();
+                    objectEntity.Attach(objectEqualsNoun2.Get<Animation>().Clone());
+
+                    // Attach cloned Property
+                    objectEntity.Detach<Property>();
+                    objectEntity.Attach(objectEqualsNoun2.Get<Property>().Clone());
+                }
             }
         }
     }

@@ -15,7 +15,7 @@
         }
         public bool Equals(ObjectType type)
         {
-            return _type.Equals(type);
+            return _type == type;
         }
     }
 }

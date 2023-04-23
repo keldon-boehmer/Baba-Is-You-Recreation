@@ -22,7 +22,7 @@ namespace BigBlue.ECS
             wallText.Attach(new Object(ObjectType.Wall));
             wallText.Attach(new Text(TextType.Wall));
             wallText.Attach(new Animation(spriteSheet, Color.Gray));
-            wallText.Attach(new Property());
+            wallText.Attach(new Property(isPush: true));
         }
         public static void CreateRock(World world, Vector2 position, Texture2D[] spriteSheet)
         {
@@ -39,7 +39,7 @@ namespace BigBlue.ECS
             rockText.Attach(new Object(ObjectType.Rock));
             rockText.Attach(new Text(TextType.Rock));
             rockText.Attach(new Animation(spriteSheet, Color.Brown));
-            rockText.Attach(new Property());
+            rockText.Attach(new Property(isPush: true));
         }
         public static void CreateFlag(World world, Vector2 position, Texture2D[] spriteSheet)
         {
@@ -64,7 +64,6 @@ namespace BigBlue.ECS
             bigBlue.Attach(new Position(position));
             bigBlue.Attach(new Object(ObjectType.BigBlue));
             bigBlue.Attach(new Animation(spriteSheet, Color.White));
-            //bigBlue.Attach(new Property());
             bigBlue.Attach(new Property(isYou: true));
         }
         public static void CreateBigBlueText(World world, Vector2 position, Texture2D[] spriteSheet)
@@ -74,14 +73,14 @@ namespace BigBlue.ECS
             bigBlueText.Attach(new Object(ObjectType.BigBlue));
             bigBlueText.Attach(new Text(TextType.BigBlue));
             bigBlueText.Attach(new Animation(spriteSheet, Color.White));
-            bigBlueText.Attach(new Property());
+            bigBlueText.Attach(new Property(isPush: true));
         }
         public static void CreateFloor(World world, Vector2 position, Texture2D[] spriteSheet)
         {
             var floor = world.CreateEntity();
             floor.Attach(new Position(position));
             floor.Attach(new Object(ObjectType.Floor));
-            floor.Attach(new Animation(spriteSheet, Color.GhostWhite));
+            floor.Attach(new Animation(spriteSheet, Color.SandyBrown));
         }
         public static void CreateGrass(World world, Vector2 position, Texture2D[] spriteSheet)
         {
@@ -105,7 +104,7 @@ namespace BigBlue.ECS
             waterText.Attach(new Object(ObjectType.Water));
             waterText.Attach(new Text(TextType.Water));
             waterText.Attach(new Animation(spriteSheet, Color.Blue));
-            waterText.Attach(new Property());
+            waterText.Attach(new Property(isPush: true));
         }
         public static void CreateLava(World world, Vector2 position, Texture2D[] spriteSheet)
         {
@@ -122,14 +121,14 @@ namespace BigBlue.ECS
             lavaText.Attach(new Object(ObjectType.Lava));
             lavaText.Attach(new Text(TextType.Lava));
             lavaText.Attach(new Animation(spriteSheet, Color.Red));
-            lavaText.Attach(new Property());
+            lavaText.Attach(new Property(isPush: true));
         }
         public static void CreateHedge(World world, Vector2 position, Texture2D[] spriteSheet)
         {
             var hedge = world.CreateEntity();
             hedge.Attach(new Position(position));
             hedge.Attach(new Object(ObjectType.Hedge));
-            hedge.Attach(new Animation(spriteSheet, Color.Green));
+            hedge.Attach(new Animation(spriteSheet, Color.DarkGreen));
             hedge.Attach(new Property(isStop: true));
         }
 
@@ -140,7 +139,7 @@ namespace BigBlue.ECS
             isText.Attach(new Object(ObjectType.Is));
             isText.Attach(new Text(TextType.Is));
             isText.Attach(new Animation(spriteSheet, Color.White));
-            isText.Attach(new Property());
+            isText.Attach(new Property(isPush: true));
         }
 
         public static void CreateStopText(World world, Vector2 position, Texture2D[] spriteSheet)
@@ -149,8 +148,8 @@ namespace BigBlue.ECS
             stopText.Attach(new Position(position));
             stopText.Attach(new Text(TextType.Stop));
             stopText.Attach(new Action(ActionType.Stop));
-            stopText.Attach(new Animation(spriteSheet, Color.White));
-            stopText.Attach(new Property());
+            stopText.Attach(new Animation(spriteSheet, Color.Green));
+            stopText.Attach(new Property(isPush: true));
         }
         public static void CreatePushText(World world, Vector2 position, Texture2D[] spriteSheet)
         {
@@ -158,8 +157,8 @@ namespace BigBlue.ECS
             pushText.Attach(new Position(position));
             pushText.Attach(new Text(TextType.Push));
             pushText.Attach(new Action(ActionType.Push));
-            pushText.Attach(new Animation(spriteSheet, Color.White));
-            pushText.Attach(new Property());
+            pushText.Attach(new Animation(spriteSheet, Color.Brown));
+            pushText.Attach(new Property(isPush: true));
         }
         public static void CreateYouText(World world, Vector2 position, Texture2D[] spriteSheet)
         {
@@ -167,8 +166,8 @@ namespace BigBlue.ECS
             youText.Attach(new Position(position));
             youText.Attach(new Text(TextType.You));
             youText.Attach(new Action(ActionType.You));
-            youText.Attach(new Animation(spriteSheet, Color.White));
-            youText.Attach(new Property());
+            youText.Attach(new Animation(spriteSheet, Color.Purple));
+            youText.Attach(new Property(isPush: true));
         }
         public static void CreateWinText(World world, Vector2 position, Texture2D[] spriteSheet)
         {
@@ -176,8 +175,8 @@ namespace BigBlue.ECS
             winText.Attach(new Position(position));
             winText.Attach(new Text(TextType.Win));
             winText.Attach(new Action(ActionType.Win));
-            winText.Attach(new Animation(spriteSheet, Color.White));
-            winText.Attach(new Property());
+            winText.Attach(new Animation(spriteSheet, Color.Yellow));
+            winText.Attach(new Property(isPush: true));
         }
         public static void CreateSinkText(World world, Vector2 position, Texture2D[] spriteSheet)
         {
@@ -185,8 +184,8 @@ namespace BigBlue.ECS
             sinkText.Attach(new Position(position));
             sinkText.Attach(new Text(TextType.Sink));
             sinkText.Attach(new Action(ActionType.Sink));
-            sinkText.Attach(new Animation(spriteSheet, Color.White));
-            sinkText.Attach(new Property());
+            sinkText.Attach(new Animation(spriteSheet, Color.Blue));
+            sinkText.Attach(new Property(isPush: true));
         }
         public static void CreateKillText(World world, Vector2 position, Texture2D[] spriteSheet)
         {
@@ -194,8 +193,8 @@ namespace BigBlue.ECS
             killText.Attach(new Position(position));
             killText.Attach(new Text(TextType.Kill));
             killText.Attach(new Action(ActionType.Kill));
-            killText.Attach(new Animation(spriteSheet, Color.White));
-            killText.Attach(new Property());
+            killText.Attach(new Animation(spriteSheet, Color.Red));
+            killText.Attach(new Property(isPush: true));
         }
     }
 }
