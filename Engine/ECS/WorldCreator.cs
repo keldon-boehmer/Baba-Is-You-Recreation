@@ -29,7 +29,7 @@ namespace BigBlue
             // TODO: add ALL systems to WorldBuilder, build world
             var world = new WorldBuilder()
                 .AddSystem(new MovementSystem())
-                .AddSystem(new RulesSystem())
+                //.AddSystem(new RulesSystem())
                 .AddSystem(new KillSystem(gridWidth, gridHeight, renderStartX))
                 .AddSystem(new WinSystem())
                 .AddSystem(new AnimationSystem(gridWidth, gridHeight, renderStartX, spriteBatch))

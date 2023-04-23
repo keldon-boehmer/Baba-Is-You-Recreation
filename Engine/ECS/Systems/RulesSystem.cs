@@ -16,7 +16,7 @@ namespace BigBlue.ECS
         private ComponentMapper<Text> _textMapper;
 
         public RulesSystem() 
-            : base(Aspect.All(typeof(Position), typeof(Property), typeof(Object)))
+            : base(Aspect.All(typeof(Position), typeof(Property)))
         {
         }
 
@@ -42,25 +42,47 @@ namespace BigBlue.ECS
             // Updating Text Positions
             Dictionary<int, Position> textPositions = new Dictionary<int, Position>();
             bool diffFound = false;
+
             foreach (int entityID in ActiveEntities)
             {
                 Entity textEntity = GetEntity(entityID);
-                if (!textEntity.Has<Text>()) continue;
+
+                if (!textEntity.Has<Text>())
+                {
+                    continue;
+                }
+
                 textPositions.Add(entityID, textEntity.Get<Position>().Clone());
-                if (!_prevTextPositions.ContainsKey(entityID)) { continue; }
+
+                //if (!_prevTextPositions.ContainsKey(entityID)) { continue; }
+                
                 if (!textPositions[entityID].Equals(_prevTextPositions[entityID]))
+                {
                     diffFound = true;
+                }
+
                 if (textEntity.Get<Object>().Equals(ObjectType.Is))
+                {
                     _IsEntities.Add(textEntity);
+                }
                 else if (textEntity.Has<Object>())
+                {
                     _nouns.Add(textEntity);
+                }
                 else if (textEntity.Has<Action>())
+                {
                     _verbs.Add(textEntity);
+                }
             }
+
             _prevTextPositions = textPositions;
+
             // if the position of text entities did not change, rules could not have changed
             if (!diffFound)
+            { 
                 return;
+            }
+
             // ===========================
             // Now we start handling rules
             // ===========================
@@ -82,7 +104,7 @@ namespace BigBlue.ECS
             // Step 3: Apply Rules
 
 
-            // Cleanup, Cleanup, everybody everywhere
+            // Cleanup
             _nouns.Clear();
             _verbs.Clear();
             _IsEntities.Clear();
@@ -133,9 +155,22 @@ namespace BigBlue.ECS
                 // Clear all Properties from all entities
                 Entity entity = GetEntity(entityID);
                 entity.Get<Property>().Clear();
-                // Add isPush to all Text Entities or Hedge Objects
-                if (entity.Has<Text>() || entity.Get<Object>().Equals(ObjectType.Hedge))
+                // Add isPush to all Text Entities
+                if (entity.Has<Text>())
+                {
                     entity.Get<Property>().isPush = true;
+                }
+                // and isStop to Hedges
+                else
+                {
+                    if (entity.Has<Object>())
+                    {
+                        if (entity.Get<Object>().Equals(ObjectType.Hedge))
+                        {
+                            entity.Get<Property>().isStop = true;
+                        }
+                    }
+                }
             }
         }
 
