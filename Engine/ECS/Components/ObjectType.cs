@@ -11,7 +11,6 @@
         Water,
         Lava,
         Hedge,
-        Verb,
         Is,
     }
 }

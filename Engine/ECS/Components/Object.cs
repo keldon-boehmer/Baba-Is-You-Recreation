@@ -13,5 +13,9 @@
         {
             return new Object(_type);
         }
+        public bool Equals(ObjectType type)
+        {
+            return _type.Equals(type);
+        }
     }
 }

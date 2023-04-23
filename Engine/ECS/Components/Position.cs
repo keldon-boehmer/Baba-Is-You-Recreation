@@ -20,5 +20,10 @@ namespace BigBlue.ECS
         {
             return new Position(Coordinates);
         }
+
+        public bool Equals(Position other)
+        {
+            return Coordinates.Equals(other.Coordinates);
+        }
     }
 }

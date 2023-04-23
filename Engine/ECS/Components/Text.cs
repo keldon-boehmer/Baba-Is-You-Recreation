@@ -14,7 +14,11 @@ namespace BigBlue.ECS
 
         public Text Clone()
         {
-            return new Text(_type); ;
+            return new Text(_type);
+        }
+        public bool Equals(ObjectType type)
+        {
+            return _type.Equals(type);
         }
     }
 }
