@@ -137,15 +137,10 @@ namespace BigBlue
         {
             if (File.Exists(KeyBindingsFileName))
             {
-                // Fixing the bug where the last line of the XML file keys messed up.
-                string[] lines = File.ReadAllLines(KeyBindingsFileName);
-                lines[lines.Length - 1] = "</ArrayOfKeys>";
-                File.WriteAllLines(KeyBindingsFileName, lines);
-
                 XmlSerializer serializer = new XmlSerializer(typeof(List<Keys>));
-                using (Stream stream = File.OpenRead(KeyBindingsFileName))
+                using (StreamReader sr = File.OpenText(KeyBindingsFileName))
                 {
-                    return (List<Keys>)serializer.Deserialize(stream);
+                    return (List<Keys>)serializer.Deserialize(sr);
                 }
             }
             return new List<Keys>() { Keys.W, Keys.S, Keys.A, Keys.D, Keys.R, Keys.Z };
@@ -161,9 +156,9 @@ namespace BigBlue
             }
 
             XmlSerializer serializer = new XmlSerializer(typeof(List<Keys>));
-            using (Stream stream = File.OpenWrite(KeyBindingsFileName))
+            using (StreamWriter sw = File.CreateText(KeyBindingsFileName))
             {
-                serializer.Serialize(stream, keyBinds);
+                serializer.Serialize(sw, keyBinds);
             }
         }
     }
