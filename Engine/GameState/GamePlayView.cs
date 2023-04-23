@@ -175,6 +175,7 @@ namespace BigBlue
                 {
                     currentWorld = undoStack.Pop();
                     WorldClone.undone = true;
+                    ParticleSystem.ClearParticles();
                 }
             }
 
