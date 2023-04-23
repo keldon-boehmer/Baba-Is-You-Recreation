@@ -224,7 +224,10 @@ namespace BigBlue.ECS
                 if (!_oldWinTypes.Contains(winType))
                 {
                     newFound = true;
-                    GameStatus.winConditionChanged = true;
+                    if (_initialRulesCreated)
+                    {
+                        GameStatus.winConditionChanged = true;
+                    }
                 }
             }
             else if (propertyToApply == ActionType.You)
