@@ -43,11 +43,6 @@ namespace BigBlue.ECS
 
         public override void Update(GameTime gameTime)
         {
-            if (!GameStatus.playerMoved && _initialRulesCreated)
-            {
-                return;
-            }
-
             populateEntityLists();
 
             // ===========================
