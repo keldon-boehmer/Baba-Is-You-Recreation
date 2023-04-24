@@ -23,7 +23,7 @@ namespace BigBlue
         {
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
-            //graphics.ToggleFullScreen();
+            graphics.ToggleFullScreen();
             graphics.ApplyChanges();
 
             // Create levels

@@ -42,6 +42,8 @@ namespace BigBlue
             //Create Entities based on the Level's Text Layout
             createLayout(level.TextLayout, world);
 
+            // Create extra entities offscreen that can be used for cloning purposes
+            createExtraEntities(world, level);
             return world;
         }
 
@@ -133,6 +135,17 @@ namespace BigBlue
                 default:
                     throw new Exception();
             }
+        }
+
+        private static void createExtraEntities(World world, Level level)
+        {
+            createAppropriateEntity('w', world, new Vector2(0, level.Height + 1), spriteSheets['w']);
+            createAppropriateEntity('r', world, new Vector2(0, level.Height + 2), spriteSheets['r']);
+            createAppropriateEntity('f', world, new Vector2(0, level.Height + 3), spriteSheets['f']);
+            createAppropriateEntity('b', world, new Vector2(0, level.Height + 4), spriteSheets['b']);
+            createAppropriateEntity('v', world, new Vector2(0, level.Height + 5), spriteSheets['v']);
+            createAppropriateEntity('a', world, new Vector2(0, level.Height + 6), spriteSheets['a']);
+
         }
 
         #region Sprite Sheet Loading
