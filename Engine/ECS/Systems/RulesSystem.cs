@@ -272,7 +272,9 @@ namespace BigBlue.ECS
             foreach (Entity objectEntity in _objectEntities)
             {
                 Object entityType = objectEntity.Get<Object>();
-                if (entityType.Equals(rule[0].Get<Object>().Type))
+                Vector2 entityCoords = objectEntity.Get<Position>().Coordinates;
+                // Change entities of noun1's type, unless it is the off-screen entity meant for cloning
+                if (entityType.Equals(rule[0].Get<Object>().Type) && entityCoords.Y < LevelManager.Instance.GetCurrentLevel().Height)
                 {
                     // Attach cloned Object
                     objectEntity.Detach<Object>();
