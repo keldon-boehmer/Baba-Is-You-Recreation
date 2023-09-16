@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BigBlue
+namespace Baba
 {
     public abstract class GameStateView : IGameState
     {

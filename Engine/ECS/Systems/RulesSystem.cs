@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace BigBlue.ECS
+namespace Baba.ECS
 {
     internal class RulesSystem : EntityUpdateSystem
     {

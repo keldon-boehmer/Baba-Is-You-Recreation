@@ -3,7 +3,7 @@ using MonoGame.Extended.Entities;
 using MonoGame.Extended.Entities.Systems;
 using System.Collections.Generic;
 
-namespace BigBlue.ECS
+namespace Baba.ECS
 {
     internal class WinSystem : EntityUpdateSystem
     {

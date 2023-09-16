@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace BigBlue
+namespace Baba
 {
     public class Particle
     {

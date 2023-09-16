@@ -7,7 +7,7 @@ namespace assn3
         [STAThread]
         static void Main()
         {
-            using (var game = new BigBlue.BigBlueGame())
+            using (var game = new Baba.BigBlueGame())
                 game.Run();
         }
     }

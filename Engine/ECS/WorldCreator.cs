@@ -1,13 +1,12 @@
-﻿using BigBlue.ECS;
+﻿using Baba.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Entities;
 using System;
 using System.Collections.Generic;
-using System.Reflection.Emit;
 
-namespace BigBlue
+namespace Baba
 {
     public static class WorldCreator
     {
@@ -26,7 +25,7 @@ namespace BigBlue
                 renderStartX = 0;
             }
 
-            // TODO: add ALL systems to WorldBuilder, build world
+            // Add ALL systems to WorldBuilder, build world
             var world = new WorldBuilder()
                 .AddSystem(new MovementSystem())
                 .AddSystem(new RulesSystem(gridWidth, gridHeight, renderStartX))
@@ -159,10 +158,9 @@ namespace BigBlue
                 spriteSheets['w'] = createSpriteSheet(contentManager, "Wall", "wall");
                 spriteSheets['r'] = createSpriteSheet(contentManager, "Rock", "rock");
                 spriteSheets['f'] = createSpriteSheet(contentManager, "Flag", "flag");
-                Texture2D bigBlue = contentManager.Load<Texture2D>("Textures/BigBlue/BigBlue");
+                Texture2D bigBlue = contentManager.Load<Texture2D>("Textures/Baba/Baba");
                 spriteSheets['b'] = new Texture2D[] { bigBlue };
                 spriteSheets['l'] = createSpriteSheet(contentManager, "Floor", "floor");
-                //charToSpriteSheet['f'] = createSpriteSheet(contentManager, "Flowers", "flowers");
                 spriteSheets['g'] = createSpriteSheet(contentManager, "Grass", "grass");
                 spriteSheets['a'] = createSpriteSheet(contentManager, "Water", "water");
                 spriteSheets['v'] = createSpriteSheet(contentManager, "Lava", "lava");

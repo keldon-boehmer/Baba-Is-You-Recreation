@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace BigBlue.ECS
+namespace Baba.ECS
 {
     internal class Position
     {

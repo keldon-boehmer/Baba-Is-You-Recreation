@@ -1,6 +1,6 @@
 ﻿using MonoGame.Extended.Entities;
 
-namespace BigBlue
+namespace Baba
 {
     public static class WorldClone
     {
