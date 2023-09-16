@@ -51,7 +51,7 @@
 /processorParam:Quality=Best
 /build:Sound/winConditionChange.wav
 
-#begin Textures/BigBlue/BigBlue.png
+#begin Textures/Baba/Baba.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -61,7 +61,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Textures/BigBlue/BigBlue.png
+/build:Textures/Baba/Baba.png
 
 #begin Textures/Flag/flag_0.png
 /importer:TextureImporter

@@ -3,12 +3,12 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace BigBlue
+namespace Baba
 {
     public class AboutView : GameStateView
     {
         private SpriteFont font;
-        private const string MESSAGE = "Created by Keldon Boehmer and Zach Harrison for CS5410";
+        private const string MESSAGE = "Created by Keldon Boehmer and Zach Harrison";
 
         public override void loadContent(ContentManager contentManager)
         {

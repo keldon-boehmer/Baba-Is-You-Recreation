@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BigBlue.ECS
+namespace Baba.ECS
 {
     internal class KillSystem : EntityUpdateSystem
     {

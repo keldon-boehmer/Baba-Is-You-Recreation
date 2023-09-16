@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BigBlue.ECS
+namespace Baba.ECS
 {
     internal class Animation
     {

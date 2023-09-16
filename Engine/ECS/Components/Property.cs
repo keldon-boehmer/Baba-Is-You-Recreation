@@ -1,7 +1,7 @@
-﻿using BigBlue.ECS;
+﻿using Baba.ECS;
 using Engine.ECS;
 
-namespace BigBlue
+namespace Baba
 {
     public class Property
     {

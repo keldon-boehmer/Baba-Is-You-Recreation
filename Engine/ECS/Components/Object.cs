@@ -1,4 +1,4 @@
-﻿namespace BigBlue.ECS
+﻿namespace Baba.ECS
 {
     internal class Object
     {

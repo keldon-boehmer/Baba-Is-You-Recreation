@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Entities;
 
-namespace BigBlue.ECS
+namespace Baba.ECS
 {
     public static class EntityCreator
     {

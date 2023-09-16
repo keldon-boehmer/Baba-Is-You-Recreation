@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace BigBlue
+namespace Baba
 {
     public class MainMenuView : GameStateView
     {
@@ -86,10 +86,10 @@ namespace BigBlue
         {
             spriteBatch.Begin();
 
-            Vector2 stringSize = fontMenu.MeasureString("Big Blue is You!");
+            Vector2 stringSize = fontMenu.MeasureString("Baba is You!");
             spriteBatch.DrawString(
                 fontMenu,
-                "Big Blue is You!",
+                "Baba is You!",
                 new Vector2(graphics.PreferredBackBufferWidth / 2 - stringSize.X / 2, graphics.PreferredBackBufferHeight / 10),
                 Color.Blue);
 
