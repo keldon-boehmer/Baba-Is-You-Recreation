@@ -5,7 +5,7 @@
         Wall,
         Rock,
         Flag,
-        BigBlue,
+        Baba,
         Is,
         Stop,
         Push,

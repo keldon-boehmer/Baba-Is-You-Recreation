@@ -75,7 +75,7 @@ namespace Baba
                     EntityCreator.CreateFlag(world, position, spriteSheet);
                     break;
                 case 'b':
-                    EntityCreator.CreateBigBlue(world, position, spriteSheet);
+                    EntityCreator.CreateBaba(world, position, spriteSheet);
                     break;
                 case 'l':
                     EntityCreator.CreateFloor(world, position, spriteSheet);
@@ -102,7 +102,7 @@ namespace Baba
                     EntityCreator.CreateFlagText(world, position, spriteSheet);
                     break;
                 case 'B':
-                    EntityCreator.CreateBigBlueText(world, position, spriteSheet);
+                    EntityCreator.CreateBabaText(world, position, spriteSheet);
                     break;
                 case 'I':
                     EntityCreator.CreateIsText(world, position, spriteSheet);
@@ -158,8 +158,8 @@ namespace Baba
                 spriteSheets['w'] = createSpriteSheet(contentManager, "Wall", "wall");
                 spriteSheets['r'] = createSpriteSheet(contentManager, "Rock", "rock");
                 spriteSheets['f'] = createSpriteSheet(contentManager, "Flag", "flag");
-                Texture2D bigBlue = contentManager.Load<Texture2D>("Textures/Baba/Baba");
-                spriteSheets['b'] = new Texture2D[] { bigBlue };
+                Texture2D baba = contentManager.Load<Texture2D>("Textures/Baba/Baba");
+                spriteSheets['b'] = new Texture2D[] { baba };
                 spriteSheets['l'] = createSpriteSheet(contentManager, "Floor", "floor");
                 spriteSheets['g'] = createSpriteSheet(contentManager, "Grass", "grass");
                 spriteSheets['a'] = createSpriteSheet(contentManager, "Water", "water");

@@ -5,14 +5,14 @@ using System.Diagnostics;
 
 namespace Baba
 {
-    public class BigBlueGame : Game
+    public class BabaGame : Game
     {
         private GraphicsDeviceManager graphics;
         private IGameState currentState;
         private GameStateEnum nextStateEnum = GameStateEnum.MainMenu;
         private Dictionary<GameStateEnum, IGameState> states;
 
-        public BigBlueGame()
+        public BabaGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";

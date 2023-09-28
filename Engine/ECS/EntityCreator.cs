@@ -58,22 +58,22 @@ namespace Baba.ECS
             flagText.Attach(new Animation(spriteSheet, Color.Yellow));
             flagText.Attach(new Property());
         }
-        public static void CreateBigBlue(World world, Vector2 position, Texture2D[] spriteSheet)
+        public static void CreateBaba(World world, Vector2 position, Texture2D[] spriteSheet)
         {
-            var bigBlue = world.CreateEntity();
-            bigBlue.Attach(new Position(position));
-            bigBlue.Attach(new Object(ObjectType.BigBlue));
-            bigBlue.Attach(new Animation(spriteSheet, Color.White));
-            bigBlue.Attach(new Property(isYou: true));
+            var baba = world.CreateEntity();
+            baba.Attach(new Position(position));
+            baba.Attach(new Object(ObjectType.Baba));
+            baba.Attach(new Animation(spriteSheet, Color.White));
+            baba.Attach(new Property(isYou: true));
         }
-        public static void CreateBigBlueText(World world, Vector2 position, Texture2D[] spriteSheet)
+        public static void CreateBabaText(World world, Vector2 position, Texture2D[] spriteSheet)
         {
-            var bigBlueText = world.CreateEntity();
-            bigBlueText.Attach(new Position(position));
-            bigBlueText.Attach(new Object(ObjectType.BigBlue));
-            bigBlueText.Attach(new Text(TextType.BigBlue));
-            bigBlueText.Attach(new Animation(spriteSheet, Color.White));
-            bigBlueText.Attach(new Property(isPush: true));
+            var babaText = world.CreateEntity();
+            babaText.Attach(new Position(position));
+            babaText.Attach(new Object(ObjectType.Baba));
+            babaText.Attach(new Text(TextType.Baba));
+            babaText.Attach(new Animation(spriteSheet, Color.White));
+            babaText.Attach(new Property(isPush: true));
         }
         public static void CreateFloor(World world, Vector2 position, Texture2D[] spriteSheet)
         {
